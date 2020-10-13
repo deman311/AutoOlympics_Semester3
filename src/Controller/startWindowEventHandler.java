@@ -14,7 +14,7 @@ public class startWindowEventHandler implements EventHandler<ActionEvent> {
 
 		if (ae.getSource().toString().contains("Automatic")) {
 			olympic.autoGenerate();
-			VisualConstructor.fillMainTables(olympic.getCountries(), olympic.getStadiums());
+			VisualConstructor.fillMainTables(olympic.getCountries(), olympic.getCompetitions());
 			JOptionPane.showMessageDialog(null,
 					"Welcome user!\n\nHere you will be presented with information about an Automatically Generated Olympic: "
 							+ ProgramRunner.getCurretOlympic().getName()

@@ -14,17 +14,11 @@ public class NationalTeam {
     public NationalTeam(String country) {
     	this.country = new SimpleStringProperty(country);
         this.numOfMedals = new SimpleStringProperty("0");
-        goldMedals = 0;
-        silverMedals = 0;
-        bronzeMedals = 0;
     }
     
     public NationalTeam(String country,String numOfMedals) {
         this.country = new SimpleStringProperty(country);
         this.numOfMedals = new SimpleStringProperty(numOfMedals);
-        goldMedals = 0;
-        silverMedals = 0;
-        bronzeMedals = 0;
     }
 
     public void addMember(Athlete athlete){
@@ -69,7 +63,7 @@ public class NationalTeam {
 		for(int i=1;i<=10;i++)
 			members.add(new HighJumper(getCountry()+ " Bob Jumpski " + i, this));
 		for(int i=1;i<=10;i++)
-			members.add(new RunnerJumper(getCountry()+ " Bob RunJumpski " + i, this));
+			members.add(new RunnerJumper(getCountry()+ " Bob Runjumpski " + i, this));
 		
 		for(Athlete him : members) {
 			him.randomizeMedals();

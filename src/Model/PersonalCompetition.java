@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import Controller.ProgramRunner;
 
-public class PersonalCompetition extends Competition implements Fill{
-
+public class PersonalCompetition extends Competition {
    
 	private ArrayList<Athlete> competitors = new ArrayList<Athlete>();
 
@@ -13,14 +12,7 @@ public class PersonalCompetition extends Competition implements Fill{
     	super(Olympic.eType.PERSONAL, field);	
     }
     
-//    public void fillCompetitors() {
-//    	for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
-//    		for(Athlete competitor: team.getMembers())
-//    			if(competitor.getField_name().equalsIgnoreCase(super.getField()))
-//    				competitors.add(competitor);
-//    }
-
-	public void fill() {
+	public void fillCompetitors() {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
     		for(Athlete competitor: team.getMembers())
     			if(competitor.getField_name().equalsIgnoreCase(super.getField()))

@@ -13,7 +13,6 @@ import Controller.tableMouseHandler;
 import Model.Athlete;
 import Model.Competition;
 import Model.NationalTeam;
-import Model.Stadium;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -24,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.SortType;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -53,7 +53,7 @@ public class VisualConstructor extends Application {
 	private static TableView<Athlete> tvAthletes;
 	private static TableView<Competition> tvCompetition;
 	private static NationalTeam currentSelectedTeam;
-	private static Stadium currentSelectedStadium;
+	private static Competition currentSelectedCompetition;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -183,8 +183,10 @@ public class VisualConstructor extends Application {
 						"Achieved Medals");
 				tcCountryNumOfMedals.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("numOfMedals"));
 				tcCountryNumOfMedals.setPrefWidth(100);
-
+				tcCountryNumOfMedals.setSortType(SortType.DESCENDING);
+				
 				tvCountries.getColumns().addAll(tcCountryName, tcCountryNumOfMedals);
+				tvCountries.getSortOrder().add(tcCountryNumOfMedals);
 			}
 
 			// COMPETITIONS TABLE
@@ -201,15 +203,15 @@ public class VisualConstructor extends Application {
 			lbCompetitions.setFont(new Font("Impact", 20));
 
 			if (tvCompetition.getColumns().isEmpty()) {
-				TableColumn<Competition, String> tcCompetition = new TableColumn<Competition, String>("Competition");
+				TableColumn<Competition, String> tcCompetition = new TableColumn<Competition, String>("Type");
 				tcCompetition.setCellValueFactory(new PropertyValueFactory<Competition, String>("type"));
-				tcCompetition.setPrefWidth(150);
+				tcCompetition.setPrefWidth(100);
 
-				TableColumn<Competition, String> tcField = new TableColumn<Competition, String>("Field");
+				TableColumn<Competition, String> tcField = new TableColumn<Competition, String>("Competition");
 				tcField.setCellValueFactory(new PropertyValueFactory<Competition, String>("field"));
-				tcField.setPrefWidth(100);
+				tcField.setPrefWidth(150);
 
-				tvCompetition.getColumns().addAll(tcCompetition, tcField);
+				tvCompetition.getColumns().addAll(tcField, tcCompetition);
 			}
 
 			btnViewAthlethes.disableProperty()
@@ -282,7 +284,7 @@ public class VisualConstructor extends Application {
 		// ATHLETE WINDOW --------------------------------------------------------------------------------------------------------
 		else if (scene.equalsIgnoreCase("athlete window")) {
 			BorderPane mainWindowBP = new BorderPane();
-			Scene mainWindow = new Scene(mainWindowBP, 700, 700);
+			Scene mainWindow = new Scene(mainWindowBP, 800, 800);
 			mainWindowBP
 					.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -363,7 +365,7 @@ public class VisualConstructor extends Application {
 			competitionVB.setAlignment(Pos.CENTER);
 			competitionVB.setSpacing(10);
 			lbCompetition.setPadding(new Insets(10));
-			lbCompetition.setText("Current Competitions Of " + currentSelectedStadium.getName() + ":");
+			lbCompetition.setText(currentSelectedCompetition.getType() + " " + currentSelectedCompetition.getField());
 			lbCompetition.setFont(new Font("Impact", 15));
 
 			if (tvCompetition.getColumns().isEmpty()) {
@@ -392,7 +394,7 @@ public class VisualConstructor extends Application {
 				tcAthleteBronze.setGraphic(bronzeC);
 				
 				tcMedals.getColumns().addAll(tcAthleteGold,tcAthleteSilver,tcAthleteBronze);
-				tvAthletes.getColumns().addAll(tcAthleteName, tcAthleteField, tcMedals);
+//				tvAthletes.getColumns().addAll(tcAthleteName, tcAthleteField, tcMedals);
 			}
 
 			Button btnBack = new Button("Go Back");
@@ -471,12 +473,12 @@ public class VisualConstructor extends Application {
 		currentSelectedTeam = value;
 	}
 
-	public static void setCurrentSelectedStadium(Stadium value) {
-		currentSelectedStadium = value;
+	public static void setCurrentSelectedCompetition(Competition value) {
+		currentSelectedCompetition = value;
 	}
 
-	public static Stadium getCurrentSelectedStadium() {
-		return currentSelectedStadium;
+	public static Competition getCurrentSelectedCompetition() {
+		return currentSelectedCompetition;
 	}
 
 	public static TableView<Athlete> getAthleteTable() {
@@ -485,6 +487,10 @@ public class VisualConstructor extends Application {
 
 	public static TableView<NationalTeam> getCountryTable() {
 		return tvCountries;
+	}
+	
+	public static TableView<Competition> getCompetitionTable() {
+		return tvCompetition;
 	}
 
 

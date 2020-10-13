@@ -3,7 +3,6 @@ package Model;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -15,6 +14,8 @@ public class Olympic {
 	public static enum eType{PERSONAL, TEAM}
 	private String name,startDate, endDate;
 	private ArrayList<NationalTeam> countries = new ArrayList<NationalTeam>();
+	private ArrayList<PersonalCompetition> personalCompetitions = new ArrayList<PersonalCompetition>();
+	private ArrayList<TeamCompetition> teamCompetitions = new ArrayList<TeamCompetition>();
 	private ArrayList<Competition> competitions = new ArrayList<Competition>();
 
 	public Olympic(String name, String startDate, String endDate) {
@@ -26,25 +27,13 @@ public class Olympic {
 	public ArrayList<NationalTeam> getCountries() {
 		return countries;
 	}
-
-	public ArrayList<Stadium> getStadiums() {
-        return stadiums;
-    }
 	
 	public void addCountry(NationalTeam country) {
 		countries.add(country);
 	}
 	
-	public void addStadium(Stadium stadium) {
-		stadiums.add(stadium);
-	}
-	
 	public void removeCountry(NationalTeam country) {
 		countries.remove(country);
-	}
-	
-	public void removeStadium(Stadium stadium) {
-		stadiums.remove(stadium);
 	}
 	
 	public String getName() {
@@ -64,10 +53,17 @@ public class Olympic {
 		for(NationalTeam team : countries)
 			team.autoGenerate();
 		for(int i=0;i<eCompetition.values().length;i++) {
-			competitions.add(new PersonalCompetition(eCompetition.values()[i]));
-			competitions.add(new Competition(eType.TEAM, eCompetition.values()[i]));
+			personalCompetitions.add(new PersonalCompetition(eCompetition.values()[i]));
+			teamCompetitions.add(new TeamCompetition(eCompetition.values()[i]));
 		}
-			
+		for(PersonalCompetition PC : personalCompetitions) {
+			PC.fillCompetitors();
+			competitions.add(PC);
+		}
+		for(TeamCompetition TC : teamCompetitions) {
+			TC.fillCompetitors();
+			competitions.add(TC);
+		}
 	}
 
 	public void genContries() {
@@ -79,5 +75,9 @@ public class Olympic {
 			JOptionPane.showMessageDialog(null, "ErrorMsg","Could not find coutries file!",JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Competition> getCompetitions() {
+		return competitions;
 	}
 }
