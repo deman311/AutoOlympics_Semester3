@@ -23,7 +23,7 @@ public class Stadium {
     }
 
     public String getLocation() {
-        return location.get();
+        return location.get(); 
     }
 
 	public void autoGenerate() {

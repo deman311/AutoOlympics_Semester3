@@ -2,21 +2,28 @@ package Model;
 
 import java.util.ArrayList;
 
-public class PersonalCompetition extends Competition {
+import Controller.ProgramRunner;
 
-    private ArrayList<Athlete> competitors = new ArrayList<Athlete>();
+public class PersonalCompetition extends Competition implements Fill{
 
-    public PersonalCompetition(Stadium stadium, Olympic.eCompetition competition, Olympic olympic, Referee referee) {
-        super.setStadium(stadium);
-        super.setCompetition(competition);
-        super.setReferee(referee);
-        for(NationalTeam team : olympic.getCountries())
-            for(Athlete athlete : team.getMembers()) {
-                if(athlete.getField_name().equals(competition))
-                    competitors.add(athlete);
-            }
+   
+	private ArrayList<Athlete> competitors = new ArrayList<Athlete>();
+
+    public PersonalCompetition(Olympic.eCompetition field) {
+    	super(Olympic.eType.PERSONAL, field);	
     }
+    
+//    public void fillCompetitors() {
+//    	for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
+//    		for(Athlete competitor: team.getMembers())
+//    			if(competitor.getField_name().equalsIgnoreCase(super.getField()))
+//    				competitors.add(competitor);
+//    }
 
-
-
+	public void fill() {
+		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
+    		for(Athlete competitor: team.getMembers())
+    			if(competitor.getField_name().equalsIgnoreCase(super.getField()))
+    				competitors.add(competitor);
+	}
 }

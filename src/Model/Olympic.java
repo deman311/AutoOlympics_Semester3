@@ -12,9 +12,10 @@ public class Olympic {
 	
 	public static enum eMedal {GOLD, SILVER, BRONZE}
 	public static enum eCompetition {RUNNING, HIGHJUMPING}
+	public static enum eType{PERSONAL, TEAM}
 	private String name,startDate, endDate;
 	private ArrayList<NationalTeam> countries = new ArrayList<NationalTeam>();
-	private ArrayList<Stadium> stadiums = new ArrayList<Stadium>();
+	private ArrayList<Competition> competitions = new ArrayList<Competition>();
 
 	public Olympic(String name, String startDate, String endDate) {
 		this.name = name;
@@ -62,13 +63,11 @@ public class Olympic {
 		genContries();
 		for(NationalTeam team : countries)
 			team.autoGenerate();
-		genStadiums();
-	}
-	
-	private void genStadiums() {
-		Random rand = new Random();
-		for(int i=1;i<=10;i++)
-			stadiums.add(new Stadium("Stadium " + i, "A" + i, rand.nextInt(5000)+2000));	
+		for(int i=0;i<eCompetition.values().length;i++) {
+			competitions.add(new PersonalCompetition(eCompetition.values()[i]));
+			competitions.add(new Competition(eType.TEAM, eCompetition.values()[i]));
+		}
+			
 	}
 
 	public void genContries() {

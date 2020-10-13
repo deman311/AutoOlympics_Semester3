@@ -11,6 +11,11 @@ public class tableButtonHandler implements EventHandler<ActionEvent> {
 			VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());
 			VisualConstructor.setScene("athlete window");
 		}
+		
+		if(ae.getSource().toString().contains("View Competition")) {
+			VisualConstructor.fillCompetitionTable
+			
+		}
 	}
 
 }
