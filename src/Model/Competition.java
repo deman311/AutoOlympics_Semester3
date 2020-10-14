@@ -42,4 +42,9 @@ public class Competition {
 	public String getField() {
 		return field.get();
 	}
+
+	public void fillCompetitors() {
+		System.out.println("FLAG");
+		// Never Used - Only by the inherited
+	}
 }

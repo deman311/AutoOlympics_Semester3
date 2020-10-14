@@ -12,6 +12,7 @@ public class PersonalCompetition extends Competition {
     	super(Olympic.eType.PERSONAL, field);	
     }
     
+    @Override
 	public void fillCompetitors() {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
     		for(Athlete competitor: team.getMembers())

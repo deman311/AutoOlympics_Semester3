@@ -11,6 +11,7 @@ public class TeamCompetition extends Competition {
     	super(Olympic.eType.TEAM, field);
     }
 
+    @Override
 	public void fillCompetitors() {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
 			competitors.add(team);
