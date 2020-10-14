@@ -12,10 +12,9 @@ public class tableButtonHandler implements EventHandler<ActionEvent> {
 			VisualConstructor.setScene("athlete window");
 		}
 		
-//		if(ae.getSource().toString().contains("View Competition")) {
-//			VisualConstructor.fillCompetitionTable
-//			
-//		}
+		else if(ae.getSource().toString().contains("View Competition")) {
+			VisualConstructor.setScene("competition window");
+		}
 	}
 
 }

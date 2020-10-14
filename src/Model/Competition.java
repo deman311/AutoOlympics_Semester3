@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.SimpleStringProperty;
 
 public class Competition {
@@ -46,5 +48,15 @@ public class Competition {
 	public void fillCompetitors() {
 		System.out.println("FLAG");
 		// Never Used - Only by the inherited
+	}
+	
+	public ArrayList<NationalTeam> getNationalCompetitors(){
+		
+		return null;
+	}
+
+	public ArrayList<Athlete> getPersonalCompetitors() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

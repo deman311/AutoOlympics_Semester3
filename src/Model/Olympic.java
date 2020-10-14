@@ -26,6 +26,26 @@ public class Olympic {
 		return countries;
 	}
 	
+	public ArrayList<String> getCountryNames() {
+		ArrayList<String> temp = new ArrayList<String>();
+		for(NationalTeam team : countries)
+			temp.add(team.getCountry());
+		
+		return temp;
+	}
+	
+	public ArrayList<String> getFieldNames() {
+		ArrayList<String> temp = new ArrayList<String>();
+		for(eCompetition field : eCompetition.values())
+			temp.add(field.name());
+		
+		return temp;
+	}
+	
+	public eCompetition[] getFields() {
+		return eCompetition.values();
+	}
+	
 	public void addCountry(NationalTeam country) {
 		countries.add(country);
 	}

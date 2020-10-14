@@ -16,4 +16,8 @@ public class TeamCompetition extends Competition {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
 			competitors.add(team);
 	}
+    
+    public ArrayList<NationalTeam> getNationalCompetitors(){
+    	return competitors;
+    }
 }

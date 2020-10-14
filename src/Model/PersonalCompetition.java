@@ -19,4 +19,11 @@ public class PersonalCompetition extends Competition {
     			if(competitor.getField_name().equalsIgnoreCase(super.getField()))
     				competitors.add(competitor);
 	}
+    
+	@Override
+    public ArrayList<Athlete> getPersonalCompetitors() {
+    	return competitors;
+    }
+	
+	
 }
