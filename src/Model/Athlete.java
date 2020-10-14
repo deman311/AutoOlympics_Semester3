@@ -17,7 +17,7 @@ public class Athlete extends Person {
     
     public Athlete(String name, NationalTeam country) {
     	this.athlete_name = new SimpleStringProperty(name);
-    	this.field_name = new SimpleStringProperty("temp");
+    	this.field_name = new SimpleStringProperty("Not Set");
     	this.gold_Medals = new SimpleStringProperty("0");
     	this.silver_Medals = new SimpleStringProperty("0");
     	this.bronze_Medals = new SimpleStringProperty("0");

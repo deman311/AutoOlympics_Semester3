@@ -2,8 +2,11 @@ package Controller;
 
 import javax.swing.JOptionPane;
 
+import Model.HighJumper;
 import Model.Olympic;
 import Model.Referee;
+import Model.Runner;
+import Model.RunnerJumper;
 import Model.Stadium;
 import View.VisualConstructor;
 import javafx.event.ActionEvent;
@@ -45,24 +48,42 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 				VisualConstructor.setScene("start window");
 				break;
 			case "Human Submit Window":
-				VisualConstructor.getCurrentSelectedCompetition().setReferee(new Referee(VisualConstructor.getTfName().getText(), VisualConstructor.getSelectedCountry(), VisualConstructor.getSelectedField()));
+				if(VisualConstructor.getLastScene().contains("competition window"))
+					VisualConstructor.getCurrentSelectedCompetition().setReferee(new Referee(VisualConstructor.getTfName().getText(), VisualConstructor.getSelectedCountry(), VisualConstructor.getCurrentSelectedCompetition().getField()));
+				else if(VisualConstructor.getLastScene().contains("athlete window")) {
+					if(VisualConstructor.getSelectedField() == null)
+						VisualConstructor.getCurrentSelectedTeam().addMember(new RunnerJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getSelectedCountry()));
+					else if(VisualConstructor.getSelectedField().name().contains("RUNNING"))
+						VisualConstructor.getCurrentSelectedTeam().addMember(new Runner(VisualConstructor.getTfName().getText(),VisualConstructor.getSelectedCountry()));
+					else if(VisualConstructor.getSelectedField().name().contains("HIGHJUMPING"))
+						VisualConstructor.getCurrentSelectedTeam().addMember(new HighJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getSelectedCountry()));
+					
+					VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());
+				}
+					
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
-				break;	
+				break;
 			case "Stadium Submit Window":
 				VisualConstructor.getCurrentSelectedCompetition().setStadium(new Stadium(VisualConstructor.getTfName().getText(), VisualConstructor.getTfLocation().getText(), Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())));
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
 			}
-			
-			
+						
 			return;
 		}
+		
 		else if(ae.getSource().toString().contains("Set Referee")) {
 			VisualConstructor.setScene("Human Submit Window");
 			return;
 		}
+		
 		else if(ae.getSource().toString().contains("Set Stadium")) {
 			VisualConstructor.setScene("Stadium Submit Window");
+			return;
+		}
+		
+		else if(ae.getSource().toString().contains("Add Athlete")) {
+			VisualConstructor.setScene("Human Submit Window");
 			return;
 		}
 

@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
+import Model.Olympic.eCompetition;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Competition {
@@ -11,10 +12,12 @@ public class Competition {
 		
     private final SimpleStringProperty type;
     private final SimpleStringProperty field;
+    private eCompetition eField;
     
     public Competition(Olympic.eType type, Olympic.eCompetition field) {
     	this.type = new SimpleStringProperty(type.name());
     	this.field = new SimpleStringProperty(field.name());
+    	eField = field;
     }
 
     public Stadium getStadium() {
@@ -26,7 +29,7 @@ public class Competition {
     }
     
     public boolean setReferee(Referee referee) {
-    	if(referee.getField().name().equalsIgnoreCase(this.getField())) {
+    	if(referee.getField().name().equalsIgnoreCase(this.getFieldName())) {
     		this.referee = referee;
     		return true;
     	}
@@ -41,8 +44,12 @@ public class Competition {
 		return type.get();
 	}
 
-	public String getField() {
+	public String getFieldName() {
 		return field.get();
+	}
+	
+	public eCompetition getField() {
+		return eField;
 	}
 
 	public void fillCompetitors() {
