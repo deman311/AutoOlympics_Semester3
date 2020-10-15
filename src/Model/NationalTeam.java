@@ -24,6 +24,10 @@ public class NationalTeam {
     public void addMember(Athlete athlete){
         members.add(athlete);
     }
+    
+    public void removeMember(Athlete athlete) {
+    	members.remove(athlete);
+    }
 
     public ArrayList<Athlete> getMembers() {
         return members;

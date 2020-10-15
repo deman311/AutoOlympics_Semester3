@@ -92,4 +92,13 @@ public class Olympic {
 	public ArrayList<Competition> getCompetitions() {
 		return competitions;
 	}
+	
+	public void addCompetition(Competition competition) {
+		competitions.add(competition);
+	}
+	
+	public void removeCompetition(Competition competition) {
+		competitions.remove(competition);
+		
+	}
 }

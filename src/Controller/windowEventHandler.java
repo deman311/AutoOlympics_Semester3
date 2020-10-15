@@ -2,7 +2,9 @@ package Controller;
 
 import javax.swing.JOptionPane;
 
+import Model.Competition;
 import Model.HighJumper;
+import Model.NationalTeam;
 import Model.Olympic;
 import Model.Referee;
 import Model.Runner;
@@ -67,8 +69,12 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 				VisualConstructor.getCurrentSelectedCompetition().setStadium(new Stadium(VisualConstructor.getTfName().getText(), VisualConstructor.getTfLocation().getText(), Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())));
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
-			}
-						
+			case "Country Submit Window":
+				ProgramRunner.getCurretOlympic().addCountry(new NationalTeam(VisualConstructor.getTfName().getText()));
+				VisualConstructor.setScene(VisualConstructor.getLastScene());
+				VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
+				break;
+			}	
 			return;
 		}
 		
@@ -82,11 +88,6 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 			return;
 		}
 		
-		else if(ae.getSource().toString().contains("Add Athlete")) {
-			VisualConstructor.setScene("Human Submit Window");
-			return;
-		}
-
 		VisualConstructor.setScene("main window");
 	}
 }

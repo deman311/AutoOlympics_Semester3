@@ -47,12 +47,13 @@ public class VisualConstructor extends Application {
 
 	private static Stage myStage;
 
-	private static TextField tfName, tfSDate, tfEdate, tfNumOfSeats, tfLocation;
+	private static TextField tfName, tfSDate, tfEdate, tfNumOfSeats, tfLocation, tfType, tfField;
 	private static TableView<NationalTeam> tvCountries;
 	private static TableView<Athlete> tvAthletes;
 	private static TableView<Competition> tvCompetition;
 	private static NationalTeam currentSelectedTeam;
 	private static Competition currentSelectedCompetition;
+	private static Athlete currentSelectedAthlete;
 	private static String currentScene, lastScene;
 	private static ComboBox<String> cbCountries, cbFields;
 
@@ -175,6 +176,9 @@ public class VisualConstructor extends Application {
 			Button btnViewAthlethes = new Button("View Athletes");
 			Button btnAddCountry = new Button("Add Country");
 			Button btnDeleteCountry = new Button("Delete Country");
+			tvCountries.setOnMouseClicked(tmHandler);
+			btnDeleteCountry.setOnAction(tbHandler);
+			btnAddCountry.setOnAction(tbHandler);
 
 			CoutriesVB.getChildren().addAll(btnViewAthlethes, btnAddCountry, btnDeleteCountry);
 			CoutriesVB.setAlignment(Pos.CENTER);
@@ -197,6 +201,7 @@ public class VisualConstructor extends Application {
 				tvCountries.getColumns().addAll(tcCountryName, tcCountryNumOfMedals);
 				tvCountries.getSortOrder().add(tcCountryNumOfMedals);
 			}
+			
 
 			// COMPETITIONS TABLE
 			Label lbCompetitions = new Label();
@@ -236,6 +241,8 @@ public class VisualConstructor extends Application {
 			tvCompetition.setOnMouseClicked(tmHandler);
 			btnViewAthlethes.setOnAction(tbHandler);
 			btnViewCompetition.setOnAction(tbHandler);
+			btnDeleteCompetition.setOnAction(tbHandler);
+			btnAddCompetition.setOnAction(weHandler);
 
 			// VISUAL GRIDPANE
 			mainGP.setAlignment(Pos.TOP_CENTER);
@@ -297,7 +304,8 @@ public class VisualConstructor extends Application {
 			HBox athleteHB = new HBox();
 			Button btnAddAthlete = new Button("Add Athlete");
 			Button btnDeleteAthlete = new Button("Delete Athlete");
-			btnAddAthlete.setOnAction(weHandler);
+			btnAddAthlete.setOnAction(tbHandler);
+			btnDeleteAthlete.setOnAction(tbHandler);
 			
 			athleteHB.getChildren().addAll(btnAddAthlete, btnDeleteAthlete, btnBack);
 			athleteHB.setAlignment(Pos.CENTER);
@@ -305,6 +313,9 @@ public class VisualConstructor extends Application {
 			athleteHB.setPadding(new Insets(20));
 			lbAthletes.setPadding(new Insets(20));
 			lbAthletes.setFont(new Font("Impact", 15));
+			
+			tvAthletes.setOnMouseClicked(tmHandler);
+			
 
 			if (tvAthletes.getColumns().isEmpty()) {
 				TableColumn<Athlete, String> tcAthleteName = new TableColumn<Athlete, String>("Athlete Name");
@@ -499,6 +510,74 @@ public class VisualConstructor extends Application {
 			
 			myStage.setScene(setWindow);
 		}
+		
+		else if (scene.equalsIgnoreCase("Competition Submit Window")) {
+
+			Scene setWindow = new Scene(mainWindowBP, 500, 500);
+
+			VBox vbSet = new VBox();
+			HBox hbTitle = new HBox();
+			HBox hbType = new HBox();
+			HBox hbField = new HBox();
+			HBox hbBtns = new HBox();
+
+			Label lbTitle = new Label("Competition Details");
+			Label lbType = new Label("Type: ");
+			Label lbField = new Label("Field: ");
+
+			tfType = new TextField();
+			tfField = new TextField();
+
+			lbTitle.setFont(new Font("Impact", 40));
+			hbTitle.getChildren().add(lbTitle);
+			hbTitle.setAlignment(Pos.CENTER);
+			hbType.setAlignment(Pos.CENTER);
+			hbField.setAlignment(Pos.CENTER);
+			hbBtns.setAlignment(Pos.CENTER);
+			hbType.setPadding(new Insets(20));
+			hbField.setPadding(new Insets(20));
+			hbBtns.setSpacing(20);
+			hbBtns.getChildren().addAll(btnSubmit, btnBack);
+			hbType.getChildren().addAll(lbType, tfType);
+			hbField.getChildren().addAll(lbField, tfField);
+			vbSet.getChildren().addAll(hbType, hbField, hbBtns);
+			vbSet.setAlignment(Pos.CENTER);
+			mainWindowBP.setTop(hbTitle);
+			mainWindowBP.setCenter(vbSet);
+			
+			myStage.setScene(setWindow);
+		}
+		
+		else if (scene.equalsIgnoreCase("Country Submit Window")) {
+
+			Scene setWindow = new Scene(mainWindowBP, 500, 500);
+
+			VBox vbSet = new VBox();
+			HBox hbTitle = new HBox();
+			HBox hbName = new HBox();
+			HBox hbBtns = new HBox();
+
+			Label lbTitle = new Label("Country Details");
+			Label lbName = new Label("Name: ");
+
+			tfName = new TextField();
+
+			lbTitle.setFont(new Font("Impact", 40));
+			hbTitle.getChildren().add(lbTitle);
+			hbTitle.setAlignment(Pos.CENTER);
+			hbName.setAlignment(Pos.CENTER);
+			hbBtns.setAlignment(Pos.CENTER);
+			hbName.setPadding(new Insets(20));
+			hbBtns.setSpacing(20);
+			hbBtns.getChildren().addAll(btnSubmit, btnBack);
+			hbName.getChildren().addAll(lbName, tfName);
+			vbSet.getChildren().addAll(hbName, hbBtns);
+			vbSet.setAlignment(Pos.CENTER);
+			mainWindowBP.setTop(hbTitle);
+			mainWindowBP.setCenter(vbSet);
+			
+			myStage.setScene(setWindow);
+		}
 	}
 
 	public static void mainLaunch(String[] args) {
@@ -556,6 +635,22 @@ public class VisualConstructor extends Application {
 
 	public static String getCurrentScene() {
 		return currentScene;
+	}
+
+	public static TextField getTfType() {
+		return tfType;
+	}
+
+	public static void setTfType(TextField tfType) {
+		VisualConstructor.tfType = tfType;
+	}
+
+	public static TextField getTfField() {
+		return tfField;
+	}
+
+	public static void setTfField(TextField tfField) {
+		VisualConstructor.tfField = tfField;
 	}
 
 	public static TextField getTfLocation() {
@@ -641,6 +736,14 @@ public class VisualConstructor extends Application {
 
 	public static void setLastScene(String lastScene) {
 		VisualConstructor.lastScene = lastScene;
+	}
+
+	public static void setCurrentSelectedAthlete(Athlete athlete) {
+		 currentSelectedAthlete = athlete;
+	}
+	
+	public static Athlete getCurrentSelectedAthlete() {
+		return currentSelectedAthlete;
 	}
 
 }
