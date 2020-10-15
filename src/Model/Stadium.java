@@ -3,30 +3,24 @@ package Model;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Stadium {
-    private int numOfSeats;
 
-    private final SimpleStringProperty name;
-    private final SimpleStringProperty location;
+    private final SimpleStringProperty sName,sLocation,sNumOfSeats;
     
     public Stadium(String name, String location, int numOfSeats) {
-    	this.name = new SimpleStringProperty(name);
-    	this.location = new SimpleStringProperty(location);
-        this.numOfSeats = numOfSeats;
+    	sName = new SimpleStringProperty(name);
+    	sLocation = new SimpleStringProperty(location);
+        sNumOfSeats = new SimpleStringProperty(""+numOfSeats);
     }
 
-    public String getName() {
-        return name.get();
+    public String getSName() {
+        return sName.get();
     }
 
-    public int getNumOfSeats() {
-        return numOfSeats;
+    public String getSNumOfSeats() {
+        return sNumOfSeats.get();
     }
 
-    public String getLocation() {
-        return location.get(); 
+    public String getSLocation() {
+        return sLocation.get();
     }
-
-	public void autoGenerate() {
-		
-	}
 }

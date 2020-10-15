@@ -5,20 +5,17 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 
 public class NationalTeam {
-    private int goldMedals, silverMedals, bronzeMedals;
     private ArrayList<Athlete> members = new ArrayList<Athlete>();
     
-    private SimpleStringProperty country;
-    private SimpleStringProperty numOfMedals;
+    private final SimpleStringProperty sName;
+    private SimpleStringProperty sGold,sSilver,sBronze,sNumOfMedals;
 
     public NationalTeam(String country) {
-    	this.country = new SimpleStringProperty(country);
-        this.numOfMedals = new SimpleStringProperty("0");
-    }
-    
-    public NationalTeam(String country,String numOfMedals) {
-        this.country = new SimpleStringProperty(country);
-        this.numOfMedals = new SimpleStringProperty(numOfMedals);
+    	sName = new SimpleStringProperty(country);
+        sGold = new SimpleStringProperty("0");
+        sSilver = new SimpleStringProperty("0");
+        sBronze = new SimpleStringProperty("0");
+        sNumOfMedals = new SimpleStringProperty("0");
     }
 
     public void addMember(Athlete athlete){
@@ -32,46 +29,35 @@ public class NationalTeam {
     public ArrayList<Athlete> getMembers() {
         return members;
     }
-
-    public int getTotalNumOfMedals(){
-        return goldMedals+silverMedals+bronzeMedals;
-    }
-
-    public int getGoldMedals() {
-        return goldMedals;
-    }
-
-    public int getSilverMedals() {
-        return silverMedals;
-    }
-
-    public int getBronzeMedals() {
-        return bronzeMedals;
+    
+    public String getSNumOfMedals() {
+    	return sNumOfMedals.get();
     }
     
-    public void setNumOfMedals(String value) {
-    	this.numOfMedals = new SimpleStringProperty(value);
+    public int getTotalNumOfMedals(){
+        return Integer.parseInt(sGold.get())+Integer.parseInt(sSilver.get())+Integer.parseInt(sBronze.get());
     }
 
-	public String getCountry() {
-		return country.get();
+	public String getSName() {
+		return sName.get();
 	}
 	
-	public String getNumOfMedals() {
-		return numOfMedals.get();
+	public String getSGold() {
+		return sGold.get();
+	}
+	public String getSSilver() {
+		return sSilver.get();
+	}
+	public String getSBronze() {
+		return sBronze.get();
 	}
 
 	public void autoGenerate() {
 		for(int i=1;i<=10;i++)
-			members.add(new Runner(getCountry()+ " Bob Runnerski " + i, this));
+			members.add(new Runner(getSName()+ " Bob Runnerski " + i, this));
 		for(int i=1;i<=10;i++)
-			members.add(new HighJumper(getCountry()+ " Bob Jumpski " + i, this));
+			members.add(new HighJumper(getSName()+ " Bob Jumpski " + i, this));
 		for(int i=1;i<=10;i++)
-			members.add(new RunnerJumper(getCountry()+ " Bob Runjumpski " + i, this));
-		
-		for(Athlete him : members) {
-			him.randomizeMedals();
-			setNumOfMedals(""+(Integer.parseInt(getNumOfMedals())+him.getNumOfMedals()));
-		}
+			members.add(new RunnerJumper(getSName()+ " Bob Runjumpski " + i, this));
 	}
 }

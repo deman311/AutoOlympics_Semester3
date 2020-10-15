@@ -16,7 +16,7 @@ public class PersonalCompetition extends Competition {
 	public void fillCompetitors() {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
     		for(Athlete competitor: team.getMembers())
-    			if(competitor.getField_name().equalsIgnoreCase(super.getFieldName()))
+    			if(competitor.getSField().equalsIgnoreCase(super.getFieldName()))
     				competitors.add(competitor);
 	}
     

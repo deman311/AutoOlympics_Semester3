@@ -57,6 +57,14 @@ public class Competition {
 		// Never Used - Only by the inherited
 	}
 	
+	public void genStadium() {
+		
+	}
+	
+	public void genReferee() {
+		
+	}
+	
 	public ArrayList<NationalTeam> getNationalCompetitors(){
 		
 		return null;

@@ -2,7 +2,6 @@ package Controller;
 
 import javax.swing.JOptionPane;
 
-import Model.Competition;
 import Model.HighJumper;
 import Model.NationalTeam;
 import Model.Olympic;
@@ -27,6 +26,11 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 							+ ProgramRunner.getCurretOlympic().getName()
 							+ ".\nUse the tables to navigate through the Database,\nWhen ready to start the event - press \"Play The Olympics\".",
 					"Tip!", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		if(ae.getSource().toString().contains("Manually")) {
+	    	ProgramRunner.getCurretOlympic().genCompetitions();
+			VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
 		}
 
 		else if (ae.getSource().toString().contains("Back")) {
@@ -85,6 +89,25 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		
 		else if(ae.getSource().toString().contains("Set Stadium")) {
 			VisualConstructor.setScene("Stadium Submit Window");
+			return;
+		}
+		
+		else if(ae.getSource().toString().contains("View All Referees")) {
+			VisualConstructor.fillRefereesTable(ProgramRunner.getCurretOlympic().getCompetitions());
+			VisualConstructor.setScene("referees window");
+			return;
+		}
+		
+		else if(ae.getSource().toString().contains("View All Stadiums")) {
+			VisualConstructor.fillStadiumsTable(ProgramRunner.getCurretOlympic().getCompetitions());
+			VisualConstructor.setScene("stadiums window");
+			return;
+		}
+		
+		else if(ae.getSource().toString().contains("View Competitors")) {
+			VisualConstructor.resetCompetitorsTable();
+			VisualConstructor.fillCompetitorsTable(VisualConstructor.getCurrentSelectedCompetition());
+			VisualConstructor.setScene("competitors window");
 			return;
 		}
 		

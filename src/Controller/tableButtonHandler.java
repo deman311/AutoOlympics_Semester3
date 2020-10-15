@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.NationalTeam;
 import View.VisualConstructor;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,8 +24,6 @@ public class tableButtonHandler implements EventHandler<ActionEvent> {
 			case "main window" :
 				if(ae.getSource().toString().contains("Country"))
 					ProgramRunner.getCurretOlympic().removeCountry(VisualConstructor.getCurrentSelectedTeam());
-				else
-					ProgramRunner.getCurretOlympic().removeCompetition(VisualConstructor.getCurrentSelectedCompetition());
 				break;
 			}
 			VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());

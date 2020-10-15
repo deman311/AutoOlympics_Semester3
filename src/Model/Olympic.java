@@ -29,7 +29,7 @@ public class Olympic {
 	public ArrayList<String> getCountryNames() {
 		ArrayList<String> temp = new ArrayList<String>();
 		for(NationalTeam team : countries)
-			temp.add(team.getCountry());
+			temp.add(team.getSName());
 		
 		return temp;
 	}
@@ -68,14 +68,7 @@ public class Olympic {
 	
 	public void autoGenerate() {
 		genContries();
-		for(NationalTeam team : countries)
-			team.autoGenerate();
-		for(int i=0;i<eCompetition.values().length;i++) {
-			competitions.add(new PersonalCompetition(eCompetition.values()[i]));	
-			competitions.add(new TeamCompetition(eCompetition.values()[i]));
-		}
-		for(Competition com : competitions)
-			com.fillCompetitors();
+		genCompetitions();
 	}
 
 	public void genContries() {
@@ -89,16 +82,18 @@ public class Olympic {
 		}
 	}
 	
+	public void genCompetitions() {
+		for(NationalTeam team : countries)
+			team.autoGenerate();
+		for(int i=0;i<eCompetition.values().length;i++) {
+			competitions.add(new PersonalCompetition(eCompetition.values()[i]));	
+			competitions.add(new TeamCompetition(eCompetition.values()[i]));
+		}
+		for(Competition com : competitions)
+			com.fillCompetitors();
+	}
+	
 	public ArrayList<Competition> getCompetitions() {
 		return competitions;
-	}
-	
-	public void addCompetition(Competition competition) {
-		competitions.add(competition);
-	}
-	
-	public void removeCompetition(Competition competition) {
-		competitions.remove(competition);
-		
 	}
 }
