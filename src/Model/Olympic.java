@@ -77,7 +77,7 @@ public class Olympic {
 			while(readCountry.hasNext())
 				countries.add(new NationalTeam(readCountry.nextLine()));
 		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "ErrorMsg","Could not find coutries file!",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Could not find coutries file!","ErrorMsg",JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -89,8 +89,12 @@ public class Olympic {
 			competitions.add(new PersonalCompetition(eCompetition.values()[i]));	
 			competitions.add(new TeamCompetition(eCompetition.values()[i]));
 		}
-		for(Competition com : competitions)
+		for(Competition com : competitions) {
 			com.fillCompetitors();
+			com.genStadium();
+			com.genReferee();
+		}
+		
 	}
 	
 	public ArrayList<Competition> getCompetitions() {
