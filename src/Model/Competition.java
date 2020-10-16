@@ -43,27 +43,10 @@ public class Competition {
     	return false;
     }
 
-    public Referee getReferee() {
+	public Referee getReferee() {
         return referee;
     }
 
-	public String getType() {
-		return type.get();
-	}
-
-	public String getFieldName() {
-		return field.get();
-	}
-	
-	public eCompetition getField() {
-		return eField;
-	}
-
-	public void fillCompetitors() {
-		System.out.println("FLAG");
-		// Never Used - Only by the inherited
-	}
-	
 	public void genStadium() {
 		ArrayList<String> stadiums = new ArrayList<String>();
 		try {
@@ -86,6 +69,22 @@ public class Competition {
 		referee = new Referee("Bob Judgeski "+(rand.nextInt(100)+1), countries.get(rand.nextInt(countries.size())), eField);
 	}
 	
+    
+	public String getType() {
+		return type.get();
+	}
+
+	public String getFieldName() {
+		return field.get();
+	}
+	
+	public eCompetition getField() {
+		return eField;
+	}
+
+	public void fillCompetitors() {
+		// Never Used - Only by the inherited
+	}
 	public ArrayList<NationalTeam> getNationalCompetitors(){
 		
 		return null;

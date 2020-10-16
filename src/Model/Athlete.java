@@ -66,20 +66,23 @@ public class Athlete extends Person implements iRunner, iJumper {
 	public String getSBronze() {
 		return sBronze.get();
 	}
+//	 public String getScore(Athlete athlete) {
+//		
+//	 }
 	
 	public Olympic.eCompetition getField() {
 		return field;
 	}
 	
-	public void randomizeMedals() {
-		Random rand = new Random();
-		for(int i=0;i<rand.nextInt(5);i++)
-			wonMedal(eMedal.GOLD);
-		for(int i=0;i<rand.nextInt(5);i++)
-			wonMedal(eMedal.SILVER);
-		for(int i=0;i<rand.nextInt(5);i++)
-			wonMedal(eMedal.BRONZE);
-	}
+//	public void randomizeMedals() {
+//		Random rand = new Random();
+//		for(int i=0;i<rand.nextInt(5);i++)
+//			wonMedal(eMedal.GOLD);
+//		for(int i=0;i<rand.nextInt(5);i++)
+//			wonMedal(eMedal.SILVER);
+//		for(int i=0;i<rand.nextInt(5);i++)
+//			wonMedal(eMedal.BRONZE);
+//	}
 
 	public void generatePersonalBestJump() {
 		// TODO Auto-generated method stub

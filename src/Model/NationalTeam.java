@@ -99,6 +99,10 @@ public class NationalTeam implements iRunner,iJumper {
 		
 	}
 
+	public void generatePersonalBestRun() {
+		// NOT RELEVANT
+		
+	}
 	@Override
 	public void generateTeamBestJump() {
 		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+2));
@@ -117,8 +121,4 @@ public class NationalTeam implements iRunner,iJumper {
 		return sBestRun.get();
 	}
 
-	public void generatePersonalBestRun() {
-		// NOT RELEVANT
-		
-	}
 }

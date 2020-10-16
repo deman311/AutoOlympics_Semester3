@@ -81,7 +81,7 @@ public class VisualConstructor extends Application {
 		setCurrentScene(scene);
 
 		BorderPane mainWindowBP = new BorderPane();
-		mainWindowBP.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+		mainWindowBP.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		tableButtonHandler tbHandler = new tableButtonHandler();
 		tableMouseHandler tmHandler = new tableMouseHandler();
@@ -94,39 +94,9 @@ public class VisualConstructor extends Application {
 		btnExit.setOnAction(weHandler);
 		btnSubmit.setOnAction(weHandler);
 
-		// START WINDOW ---------------------------------------------------------------
-		if (scene.equalsIgnoreCase("start window")) {
-			Label openingText = new Label();
-			openingText.setText("Please choose your Olympic Game generation method:");
-			openingText.setFont(new Font("Impact", 20));
-			Button btnAutoGen = new Button();
-			btnAutoGen.setText("Automatic");
-			btnAutoGen.setPadding(new Insets(30));
-			Button btnManualGen = new Button();
-			btnManualGen.setPadding(new Insets(30));
-			btnManualGen.setText("Manually");
+		// DETAILS FORM -------------------------------------------------------------------------------------------
 
-			HBox mainBtnsHBox = new HBox();
-			mainBtnsHBox.getChildren().addAll(btnAutoGen, btnManualGen);
-			mainBtnsHBox.setSpacing(30);
-			mainBtnsHBox.setAlignment(Pos.CENTER);
-			VBox firstVBox = new VBox();
-			firstVBox.getChildren().addAll(openingText, mainBtnsHBox);
-			firstVBox.setAlignment(Pos.CENTER);
-			firstVBox.setSpacing(30);
-
-			Scene startWindow = new Scene(firstVBox, 500, 300);
-			firstVBox.setBackground(
-					new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-
-			btnAutoGen.setOnAction(weHandler);
-			btnManualGen.setOnAction(weHandler);
-			myStage.setScene(startWindow);
-		}
-
-		// DETAILS FORM ---------------------------------------------------------------
-
-		else if (scene.equalsIgnoreCase("details form")) {
+		 if (scene.equalsIgnoreCase("details form")) {
 			VBox mainVB = new VBox();
 			HBox hbName = new HBox();
 			HBox hbStartDate = new HBox();
@@ -164,12 +134,42 @@ public class VisualConstructor extends Application {
 			mainVB.getChildren().addAll(lbTitle, hbName, hbStartDate, hbEndDate, hbButtons);
 			mainVB.setAlignment(Pos.CENTER);
 
-			mainVB.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+			mainVB.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
 			Scene detailsForm = new Scene(mainVB, 500, 300);
 			myStage.setScene(detailsForm);
 		}
 
-		// MAIN WINDOW -----------------------------------------------------------
+			// START WINDOW --------------------------------------------------------------------------------------------
+		else if (scene.equalsIgnoreCase("start window")) {
+				Label openingText = new Label();
+				openingText.setText("Please choose your Olympic Game generation method:");
+				openingText.setFont(new Font("Impact", 20));
+				Button btnAutoGen = new Button();
+				btnAutoGen.setText("Automatic");
+				btnAutoGen.setPadding(new Insets(30));
+				Button btnManualGen = new Button();
+				btnManualGen.setPadding(new Insets(30));
+				btnManualGen.setText("Manually");
+
+				HBox mainBtnsHBox = new HBox();
+				mainBtnsHBox.getChildren().addAll(btnAutoGen, btnManualGen);
+				mainBtnsHBox.setSpacing(30);
+				mainBtnsHBox.setAlignment(Pos.CENTER);
+				VBox firstVBox = new VBox();
+				firstVBox.getChildren().addAll(openingText, mainBtnsHBox);
+				firstVBox.setAlignment(Pos.CENTER);
+				firstVBox.setSpacing(30);
+
+				Scene startWindow = new Scene(firstVBox, 500, 300);
+				firstVBox.setBackground(
+						new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+
+				btnAutoGen.setOnAction(weHandler);
+				btnManualGen.setOnAction(weHandler);
+				myStage.setScene(startWindow);
+			}
+
+		// MAIN WINDOW ----------------------------------------------------------------------------------
 
 		else if (scene.equalsIgnoreCase("main window")) {
 			resetMainTables();
@@ -179,7 +179,7 @@ public class VisualConstructor extends Application {
 			
 			GridPane mainGP = new GridPane();
 			Scene mainWindow = new Scene(mainWindowBP, 800, 800);
-			mainGP.setBackground(new Background(new BackgroundFill(Color.CORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+			mainGP.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
 
 			// COUTRIES TABLE
 			Label lbCountries = new Label();
@@ -563,7 +563,7 @@ public class VisualConstructor extends Application {
 		}
 		
 		// Competition Window
-		// -----------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------------
 
 		else if (scene.equalsIgnoreCase("competition window")) {
 			Scene mainWindow = new Scene(mainWindowBP, 500, 500);
