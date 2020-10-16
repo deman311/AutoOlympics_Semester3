@@ -5,9 +5,8 @@ import java.util.Random;
 import Model.Olympic.eMedal;
 import javafx.beans.property.SimpleStringProperty;
 
-public class Athlete extends Person {
+public class Athlete extends Person implements iRunner, iJumper {
 	
-	@SuppressWarnings("unused")
 	private Olympic.eCompetition field;
 
 	private SimpleStringProperty sName,sCountry,sField,sGold,sSilver,sBronze;
@@ -68,6 +67,10 @@ public class Athlete extends Person {
 		return sBronze.get();
 	}
 	
+	public Olympic.eCompetition getField() {
+		return field;
+	}
+	
 	public void randomizeMedals() {
 		Random rand = new Random();
 		for(int i=0;i<rand.nextInt(5);i++)
@@ -76,5 +79,25 @@ public class Athlete extends Person {
 			wonMedal(eMedal.SILVER);
 		for(int i=0;i<rand.nextInt(5);i++)
 			wonMedal(eMedal.BRONZE);
+	}
+
+	public void generatePersonalBestJump() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void generateTeamBestJump() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void generatePersonalBestRun() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void generateTeamBestRun() {
+		// TODO Auto-generated method stub
+		
 	}
 }

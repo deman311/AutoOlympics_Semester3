@@ -94,7 +94,11 @@ public class Olympic {
 			com.genStadium();
 			com.genReferee();
 		}
-		
+	}
+	
+	public void countMedals() {
+		for(NationalTeam country : countries)
+			country.countMedals();
 	}
 	
 	public ArrayList<Competition> getCompetitions() {

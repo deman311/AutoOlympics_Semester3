@@ -174,6 +174,7 @@ public class VisualConstructor extends Application {
 		else if (scene.equalsIgnoreCase("main window")) {
 			resetMainTables();
 			resetCompetitorsTable();
+			ProgramRunner.getCurretOlympic().countMedals();
 			fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
 			
 			GridPane mainGP = new GridPane();
@@ -209,6 +210,7 @@ public class VisualConstructor extends Application {
 				tcCountryNumOfMedals.setSortType(SortType.DESCENDING);
 
 				tvCountries.getColumns().addAll(tcCountryName, tcCountryNumOfMedals);
+				tvCountries.getSortOrder().clear();
 				tvCountries.getSortOrder().add(tcCountryNumOfMedals);
 			}
 			
@@ -265,9 +267,10 @@ public class VisualConstructor extends Application {
 			mainGP.add(competitionsVB, 1, 2);
 
 			mainWindowBP.setCenter(mainGP);
-			Button btnPlay = new Button("Play The Olympics!");
+			Button btnResults = new Button("View Results");
+			btnResults.setOnAction(weHandler);
 			HBox hbBot = new HBox();
-			hbBot.getChildren().addAll(btnPlay, btnExit);
+			hbBot.getChildren().addAll(btnResults, btnExit);
 			hbBot.setAlignment(Pos.CENTER);
 			hbBot.setSpacing(20);
 			hbBot.setPadding(new Insets(10));
@@ -453,27 +456,24 @@ public class VisualConstructor extends Application {
 		else if (scene.equalsIgnoreCase("competitors window")) {
 			Scene mainWindow = new Scene(mainWindowBP, 800, 800);
 
-			Label lbReferees = new Label();
-			HBox refereesHB = new HBox();
+			Label lbCompetitor = new Label();
+			HBox competitorHB = new HBox();
 			
-			refereesHB.getChildren().addAll(btnBack);
-			refereesHB.setAlignment(Pos.CENTER);
-			refereesHB.setSpacing(20);
-			refereesHB.setPadding(new Insets(20));
-			lbReferees.setPadding(new Insets(20));
-			lbReferees.setFont(new Font("Impact", 15));
+			competitorHB.getChildren().addAll(btnBack);
+			competitorHB.setAlignment(Pos.CENTER);
+			competitorHB.setSpacing(20);
+			competitorHB.setPadding(new Insets(20));
+			lbCompetitor.setPadding(new Insets(20));
+			lbCompetitor.setFont(new Font("Impact", 15));
 			
 			if(tvAthletes.getColumns().isEmpty())
 				if(currentSelectedCompetition.getType().contains("PERSONAL")) {
-					TableColumn<Athlete, String> tcRefereeName = new TableColumn<Athlete, String>("Name");
-					tcRefereeName.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sName"));
-					tcRefereeName.setPrefWidth(200);
-					TableColumn<Athlete, String> tcRefereeCountry = new TableColumn<Athlete, String>("Country");
-					tcRefereeCountry.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sCountry"));
-					tcRefereeCountry.setPrefWidth(200);
-					TableColumn<Athlete, String> tcRefereeField = new TableColumn<Athlete, String>("Field");
-					tcRefereeField.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sField"));
-					tcRefereeField.setPrefWidth(150);				
+					TableColumn<Athlete, String> tcCompetitorName = new TableColumn<Athlete, String>("Name");
+					tcCompetitorName.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sName"));
+					tcCompetitorName.setPrefWidth(200);
+					TableColumn<Athlete, String> tcCompetitorCountry = new TableColumn<Athlete, String>("Country");
+					tcCompetitorCountry.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sCountry"));
+					tcCompetitorCountry.setPrefWidth(200);
 					TableColumn<Athlete, String> tcMedals = new TableColumn<Athlete, String>("Achieved Medals");
 					tcMedals.setPrefWidth(250);
 					TableColumn<Athlete, String> tcGold = new TableColumn<Athlete, String>("Gold");
@@ -492,13 +492,28 @@ public class VisualConstructor extends Application {
 					tcSilver.setGraphic(silverC);
 					tcBronze.setGraphic(bronzeC);
 					tcMedals.getColumns().addAll(tcGold,tcSilver,tcBronze);
-					tvAthletes.getColumns().addAll(tcRefereeName, tcRefereeCountry, tcRefereeField, tcMedals);
+					
+					TableColumn<Athlete, String> tcCompetitorScore = new TableColumn<Athlete, String>("Score");
+					
+					if(currentSelectedCompetition.getFieldName().contains("RUNNING")) {
+						tcCompetitorScore.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sBestRun"));
+						tcCompetitorScore.setSortType(SortType.ASCENDING);
+					}
+					else {
+						tcCompetitorScore.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sBestJump"));
+						tcCompetitorScore.setSortType(SortType.DESCENDING);
+					}
+					
+					tcCompetitorScore.setPrefWidth(100);
+					tvAthletes.getColumns().addAll(tcCompetitorName, tcCompetitorCountry, tcCompetitorScore, tcMedals);
+					tvAthletes.getSortOrder().clear();
+					tvAthletes.getSortOrder().add(tcCompetitorScore);
 					mainWindowBP.setCenter(tvAthletes);
 				}
 				else {
-					TableColumn<NationalTeam, String> tcRefereeName = new TableColumn<NationalTeam, String>("Name");
-					tcRefereeName.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("sName"));
-					tcRefereeName.setPrefWidth(300);
+					TableColumn<NationalTeam, String> tcCompetitorName = new TableColumn<NationalTeam, String>("Name");
+					tcCompetitorName.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("sName"));
+					tcCompetitorName.setPrefWidth(300);
 					TableColumn<NationalTeam, String> tcMedals = new TableColumn<NationalTeam, String>("Achieved Medals");
 					tcMedals.setPrefWidth(250);
 					TableColumn<NationalTeam, String> tcGold = new TableColumn<NationalTeam, String>("Gold");
@@ -517,7 +532,22 @@ public class VisualConstructor extends Application {
 					tcSilver.setGraphic(silverC);
 					tcBronze.setGraphic(bronzeC);
 					tcMedals.getColumns().addAll(tcGold,tcSilver,tcBronze);
-					tvCountries.getColumns().addAll(tcRefereeName, tcMedals);
+					
+					TableColumn<NationalTeam, String> tcCompetitorScore = new TableColumn<NationalTeam, String>("Score");
+					
+					if(currentSelectedCompetition.getFieldName().contains("RUNNING")) {
+						tcCompetitorScore.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("sBestRun"));
+						tcCompetitorScore.setSortType(SortType.ASCENDING);
+					}
+					else {
+						tcCompetitorScore.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("sBestJump"));
+						tcCompetitorScore.setSortType(SortType.DESCENDING);
+					}
+					
+					tcCompetitorScore.setPrefWidth(100);
+					tvCountries.getColumns().addAll(tcCompetitorName, tcCompetitorScore, tcMedals);
+					tvCountries.getSortOrder().clear();
+					tvCountries.getSortOrder().add(tcCompetitorScore);
 					mainWindowBP.setCenter(tvCountries);
 				}
 
@@ -527,7 +557,7 @@ public class VisualConstructor extends Application {
 			vbTitle.getChildren().add(lbTitleName);
 			vbTitle.setAlignment(Pos.CENTER);
 			mainWindowBP.setTop(vbTitle);
-			mainWindowBP.setBottom(refereesHB);
+			mainWindowBP.setBottom(competitorHB);
 			mainWindowBP.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 			myStage.setScene(mainWindow);
 		}

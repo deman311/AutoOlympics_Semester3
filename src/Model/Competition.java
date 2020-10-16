@@ -95,4 +95,8 @@ public class Competition {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public void countVictory() {
+		// NOT USED
+	}
 }

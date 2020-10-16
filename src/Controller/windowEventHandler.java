@@ -58,15 +58,16 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 					VisualConstructor.getCurrentSelectedCompetition().setReferee(new Referee(VisualConstructor.getTfName().getText(), VisualConstructor.getSelectedCountry(), VisualConstructor.getCurrentSelectedCompetition().getField()));
 				else if(VisualConstructor.getLastScene().contains("athlete window")) {
 					if(VisualConstructor.getSelectedField() == null)
-						VisualConstructor.getCurrentSelectedTeam().addMember(new RunnerJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getSelectedCountry()));
+						VisualConstructor.getCurrentSelectedTeam().addMember(new RunnerJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
 					else if(VisualConstructor.getSelectedField().name().contains("RUNNING"))
-						VisualConstructor.getCurrentSelectedTeam().addMember(new Runner(VisualConstructor.getTfName().getText(),VisualConstructor.getSelectedCountry()));
+						VisualConstructor.getCurrentSelectedTeam().addMember(new Runner(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
 					else if(VisualConstructor.getSelectedField().name().contains("HIGHJUMPING"))
-						VisualConstructor.getCurrentSelectedTeam().addMember(new HighJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getSelectedCountry()));
+						VisualConstructor.getCurrentSelectedTeam().addMember(new HighJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
 					
 					VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());
 				}
 					
+				ProgramRunner.getCurretOlympic().countMedals();
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
 			case "Stadium Submit Window":

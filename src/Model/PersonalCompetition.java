@@ -24,6 +24,10 @@ public class PersonalCompetition extends Competition {
     public ArrayList<Athlete> getPersonalCompetitors() {
     	return competitors;
     }
-	
-	
+//	
+//	@Override
+//	public void countVictory() {
+//		for(Athlete competitor : competitors)
+//			if(competitor.getSSc)
+//	}
 }
