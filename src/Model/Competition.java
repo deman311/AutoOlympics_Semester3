@@ -86,16 +86,16 @@ public class Competition {
 		// Never Used - Only by the inherited
 	}
 	public ArrayList<NationalTeam> getNationalCompetitors(){
-		
+		// Never Used - Only by the inherited
 		return null;
 	}
 
 	public ArrayList<Athlete> getPersonalCompetitors() {
-		// TODO Auto-generated method stub
+		// Never Used - Only by the inherited
 		return null;
 	}
 	
 	public void countVictory() {
-		// NOT USED
+		// Never Used - Only by the inherited
 	}
 }

@@ -29,7 +29,7 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		}
 		
 		if(ae.getSource().toString().contains("Manually")) {
-	    	ProgramRunner.getCurretOlympic().genCompetitions();
+	    	ProgramRunner.getCurretOlympic().genCompetitions(false);
 			VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
 		}
 
@@ -79,7 +79,8 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
 				break;
-			}	
+			}
+			ProgramRunner.getCurretOlympic().genCompetitions(false);
 			return;
 		}
 		
@@ -110,6 +111,11 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 			VisualConstructor.fillCompetitorsTable(VisualConstructor.getCurrentSelectedCompetition());
 			VisualConstructor.setScene("competitors window");
 			return;
+		}
+		
+		else if(ae.getSource().toString().contains("End Olympics")) {
+			ProgramRunner.getCurretOlympic().countVictory();
+			ProgramRunner.getCurretOlympic().countMedals();
 		}
 		
 		VisualConstructor.setScene("main window");

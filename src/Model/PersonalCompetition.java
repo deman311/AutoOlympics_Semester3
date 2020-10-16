@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 import Controller.ProgramRunner;
+import Model.Olympic.eMedal;
 
 public class PersonalCompetition extends Competition {
    
@@ -16,7 +17,7 @@ public class PersonalCompetition extends Competition {
 	public void fillCompetitors() {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
     		for(Athlete competitor: team.getMembers())
-    			if(competitor.getSField().equalsIgnoreCase(super.getFieldName()))
+    			if(competitor.getSField().equalsIgnoreCase(super.getFieldName()) || competitor.getSField().equalsIgnoreCase("RUNNING, HIGHJUMPING"))
     				competitors.add(competitor);
 	}
     
@@ -24,10 +25,53 @@ public class PersonalCompetition extends Competition {
     public ArrayList<Athlete> getPersonalCompetitors() {
     	return competitors;
     }
-//	
-//	@Override
-//	public void countVictory() {
-//		for(Athlete competitor : competitors)
-//			if(competitor.getSSc)
-//	}
+	
+	@Override
+	public void countVictory() {
+		ArrayList<Athlete> runners = new ArrayList<Athlete>();
+		ArrayList<Athlete> jumpers = new ArrayList<Athlete>();
+		for(Athlete ath : competitors) {
+			if(ath.getSField().contains("RUNNING"))
+				runners.add(ath);
+			if(ath.getSField().contains("HIGHJUMPING"))
+				jumpers.add(ath);
+		}
+		
+		if(super.getFieldName().contains("RUNNING")) {
+			boolean flag;
+			do {
+				flag = false;
+				for(int i=0; i<runners.size()-1;i++)
+					if(Double.parseDouble((runners.get(i+1)).getSBestRun())<Double.parseDouble((runners.get(i)).getSBestRun())) {
+						runners.set(i+1, runners.set(i, runners.get(i+1)));
+						flag = true;
+					}
+					else if(Double.parseDouble((runners.get(i+1)).getSBestRun()) == Double.parseDouble((runners.get(i)).getSBestRun())) {
+						runners.get(i+1).makeHimLoseRun();
+						flag = true;
+					}
+			} while(flag);
+			runners.get(0).winMedal(eMedal.GOLD);
+			runners.get(1).winMedal(eMedal.SILVER);
+			runners.get(2).winMedal(eMedal.BRONZE);
+		}
+		else {
+			boolean flag;
+			do {
+				flag = false;
+				for(int i=0; i<jumpers.size()-1;i++)
+					if(Double.parseDouble((jumpers.get(i+1)).getSBestJump())>Double.parseDouble((jumpers.get(i)).getSBestJump())) {
+						jumpers.set(i+1, jumpers.set(i, jumpers.get(i+1)));
+						flag = true;
+					}
+					else if(Double.parseDouble((jumpers.get(i+1)).getSBestJump()) == Double.parseDouble((jumpers.get(i)).getSBestJump())) {
+						jumpers.get(i+1).makeHimLoseJump();
+						flag = true;
+					}
+			} while(flag);
+			jumpers.get(0).winMedal(eMedal.GOLD);
+			jumpers.get(1).winMedal(eMedal.SILVER);
+			jumpers.get(2).winMedal(eMedal.BRONZE);
+		}
+	}
 }

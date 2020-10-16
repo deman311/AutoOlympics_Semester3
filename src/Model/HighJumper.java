@@ -12,11 +12,12 @@ public class HighJumper extends Athlete implements iJumper {
     public HighJumper(String name, NationalTeam country) {
         super(name, country);
         super.setField(Olympic.eCompetition.HIGHJUMPING);
+        sBestJump = new SimpleStringProperty("0");
     }
 
     @Override
 	public void generatePersonalBestJump() {
-		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+2));
+		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()+2));
 	}
 
     public void generateTeamBestJump() {
@@ -25,5 +26,9 @@ public class HighJumper extends Athlete implements iJumper {
     
     public String getSBestJump() {
     	return sBestJump.get();
+    }
+    
+    public void makeHimLoseJump() {
+    	sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
     }
 }

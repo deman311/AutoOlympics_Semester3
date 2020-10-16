@@ -11,11 +11,12 @@ public class Runner extends Athlete implements iRunner{
     public Runner(String name, NationalTeam country) {
         super(name, country);
         super.setField(Olympic.eCompetition.RUNNING);
+        sBestRun = new SimpleStringProperty("0");
     }
     
     @Override
     public void generatePersonalBestRun() {
-    	sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+8+rand.nextInt(2)));
+    	sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+10+rand.nextInt(2)));
     }
 
     public void generateTeamBestRun() {
@@ -24,5 +25,9 @@ public class Runner extends Athlete implements iRunner{
     
     public String getSBestRun() {
     	return sBestRun.get();
+    }
+    
+    public void makeHimLoseRun() {
+    	sBestRun = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestRun.get()) + 0.001));
     }
 }

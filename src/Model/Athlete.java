@@ -1,8 +1,5 @@
 package Model;
 
-import java.util.Random;
-
-import Model.Olympic.eMedal;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Athlete extends Person implements iRunner, iJumper {
@@ -22,7 +19,7 @@ public class Athlete extends Person implements iRunner, iJumper {
         super.setCountry(country);
     }
 
-    public void wonMedal(Olympic.eMedal medal){
+    public void winMedal(Olympic.eMedal medal){
         switch (medal){
             case GOLD: sGold = new SimpleStringProperty(""+(Integer.parseInt(sGold.get())+1)); break;
             case SILVER: sSilver = new SimpleStringProperty(""+(Integer.parseInt(sSilver.get())+1)); break;
@@ -66,24 +63,11 @@ public class Athlete extends Person implements iRunner, iJumper {
 	public String getSBronze() {
 		return sBronze.get();
 	}
-//	 public String getScore(Athlete athlete) {
-//		
-//	 }
 	
 	public Olympic.eCompetition getField() {
 		return field;
 	}
 	
-//	public void randomizeMedals() {
-//		Random rand = new Random();
-//		for(int i=0;i<rand.nextInt(5);i++)
-//			wonMedal(eMedal.GOLD);
-//		for(int i=0;i<rand.nextInt(5);i++)
-//			wonMedal(eMedal.SILVER);
-//		for(int i=0;i<rand.nextInt(5);i++)
-//			wonMedal(eMedal.BRONZE);
-//	}
-
 	public void generatePersonalBestJump() {
 		// TODO Auto-generated method stub
 		
@@ -102,5 +86,23 @@ public class Athlete extends Person implements iRunner, iJumper {
 	public void generateTeamBestRun() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public String getSBestRun() {
+		// ONLY INHERITED
+		return null;
+	}
+	
+	public String getSBestJump() {
+		// ONLY INHERITED
+		return null;
+	}
+	
+	public void makeHimLoseRun() {
+		// ONLY INHERITED
+	}
+	
+	public void makeHimLoseJump() {
+		// ONLY INHERITED
 	}
 }

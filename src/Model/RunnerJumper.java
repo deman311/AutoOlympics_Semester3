@@ -12,6 +12,8 @@ public class RunnerJumper extends Athlete implements iJumper, iRunner{
     public RunnerJumper(String name, NationalTeam country) {
         super(name, country);
         super.setSField("RUNNING, HIGHJUMPING");
+        sBestJump = new SimpleStringProperty("0");
+        sBestRun = new SimpleStringProperty("0");
     }
 
 
@@ -34,11 +36,19 @@ public class RunnerJumper extends Athlete implements iJumper, iRunner{
     
     @Override
 	public void generatePersonalBestJump() {
-		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+2));
+		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()+2));
 	}
 
 	@Override
 	public void generatePersonalBestRun() {
-		sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+8+rand.nextInt(2)));
+		sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+10+rand.nextInt(2)));
+	}
+	
+	public void makeHimLoseRun() {
+    	sBestRun = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestRun.get()) + 0.001));
+    }
+	
+	public void makeHimLoseJump() {
+	    	sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
 	}
 }

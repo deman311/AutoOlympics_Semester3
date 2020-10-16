@@ -19,6 +19,8 @@ public class NationalTeam implements iRunner,iJumper {
         sSilver = new SimpleStringProperty("0");
         sBronze = new SimpleStringProperty("0");
         sNumOfMedals = new SimpleStringProperty("0");
+        sBestJump = new SimpleStringProperty("0");
+        sBestRun = new SimpleStringProperty("0");
     }
 
     public void addMember(Athlete athlete){
@@ -34,11 +36,8 @@ public class NationalTeam implements iRunner,iJumper {
     }
     
     public String getSNumOfMedals() {
+    	countNumOfMedals();
     	return sNumOfMedals.get();
-    }
-    
-    public int getTotalNumOfMedals(){
-        return Integer.parseInt(sGold.get())+Integer.parseInt(sSilver.get())+Integer.parseInt(sBronze.get());
     }
 
 	public String getSName() {
@@ -56,11 +55,11 @@ public class NationalTeam implements iRunner,iJumper {
 	}
 
 	public void autoGenerate() {
-		for(int i=1;i<=10;i++)
+		for(int i=1;i<=5;i++)
 			members.add(new Runner(getSName()+ " Bob Runnerski " + i, this));
-		for(int i=1;i<=10;i++)
+		for(int i=1;i<=5;i++)
 			members.add(new HighJumper(getSName()+ " Bob Jumpski " + i, this));
-		for(int i=1;i<=10;i++)
+		for(int i=1;i<=5;i++)
 			members.add(new RunnerJumper(getSName()+ " Bob Runjumpski " + i, this));
 		
 		generateTeamBestRun();
@@ -92,6 +91,10 @@ public class NationalTeam implements iRunner,iJumper {
 		case "BRONZE": sBronze = new SimpleStringProperty(""+(Integer.parseInt(sBronze.get()) + 1)); break;
 		}
 	}
+	
+	public void countNumOfMedals() {
+		sNumOfMedals = new SimpleStringProperty(""+(Integer.parseInt(sGold.get())+Integer.parseInt(sSilver.get())+Integer.parseInt(sBronze.get())));
+	}
 
 	@Override
 	public void generatePersonalBestJump() {
@@ -105,7 +108,7 @@ public class NationalTeam implements iRunner,iJumper {
 	}
 	@Override
 	public void generateTeamBestJump() {
-		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+2));
+		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()+2));
 	}
 
 	@Override
@@ -120,5 +123,12 @@ public class NationalTeam implements iRunner,iJumper {
 	public String getSBestRun() {
 		return sBestRun.get();
 	}
-
+	
+	public void makeHimLoseRun() {
+    	sBestRun = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestRun.get()) + 0.001));
+    }
+	
+	public void makeHimLoseJump() {
+	    	sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
+	}
 }

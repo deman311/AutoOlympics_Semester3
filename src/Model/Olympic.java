@@ -68,7 +68,7 @@ public class Olympic {
 	
 	public void autoGenerate() {
 		genContries();
-		genCompetitions();
+		genCompetitions(true);
 	}
 
 	public void genContries() {
@@ -82,17 +82,21 @@ public class Olympic {
 		}
 	}
 	
-	public void genCompetitions() {
-		for(NationalTeam team : countries)
-			team.autoGenerate();
+	public void genCompetitions(boolean isRandom) {
+		competitions.clear();
+		if(isRandom)
+			for(NationalTeam team : countries)
+				team.autoGenerate();
 		for(int i=0;i<eCompetition.values().length;i++) {
 			competitions.add(new PersonalCompetition(eCompetition.values()[i]));	
 			competitions.add(new TeamCompetition(eCompetition.values()[i]));
 		}
 		for(Competition com : competitions) {
-			com.fillCompetitors();
-			com.genStadium();
-			com.genReferee();
+			com.fillCompetitors();	
+			if(isRandom) {
+				com.genReferee();
+				com.genStadium();
+			}		
 		}
 	}
 	
@@ -103,5 +107,10 @@ public class Olympic {
 	
 	public ArrayList<Competition> getCompetitions() {
 		return competitions;
+	}
+	
+	public void countVictory() {
+		for(Competition com : competitions)
+			com.countVictory();
 	}
 }

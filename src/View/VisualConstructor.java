@@ -174,7 +174,7 @@ public class VisualConstructor extends Application {
 		else if (scene.equalsIgnoreCase("main window")) {
 			resetMainTables();
 			resetCompetitorsTable();
-			ProgramRunner.getCurretOlympic().countMedals();
+//			ProgramRunner.getCurretOlympic().countMedals();
 			fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
 			
 			GridPane mainGP = new GridPane();
@@ -267,7 +267,7 @@ public class VisualConstructor extends Application {
 			mainGP.add(competitionsVB, 1, 2);
 
 			mainWindowBP.setCenter(mainGP);
-			Button btnResults = new Button("View Results");
+			Button btnResults = new Button("End Olympics");
 			btnResults.setOnAction(weHandler);
 			HBox hbBot = new HBox();
 			hbBot.getChildren().addAll(btnResults, btnExit);
