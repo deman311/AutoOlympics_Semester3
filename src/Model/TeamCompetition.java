@@ -23,7 +23,7 @@ public class TeamCompetition extends Competition {
     }
     
     @Override
-	public void countVictory() {
+	public void awardVictors() {
 		if(super.getFieldName().contains("RUNNING")) {
 			boolean flag;
 			do {

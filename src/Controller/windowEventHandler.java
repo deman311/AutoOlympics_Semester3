@@ -34,7 +34,7 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		}
 
 		else if (ae.getSource().toString().contains("Back")) {
-			if(VisualConstructor.getCurrentScene().contains("competition window") || VisualConstructor.getCurrentScene().contains("athlete window"))
+			if(VisualConstructor.getCurrentScene().contains("competition window") || VisualConstructor.getCurrentScene().contains("athlete window") || VisualConstructor.getCurrentScene().contains("competitors window"))
 				VisualConstructor.setScene("main window");
 			else
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
@@ -66,7 +66,6 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 					
 					VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());
 				}
-					
 				ProgramRunner.getCurretOlympic().countMedals();
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
@@ -76,8 +75,25 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 				break;
 			case "Country Submit Window":
 				ProgramRunner.getCurretOlympic().addCountry(new NationalTeam(VisualConstructor.getTfName().getText()));
-				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
+				VisualConstructor.setScene(VisualConstructor.getLastScene());
+				break;
+			case "Score Submit Window":
+				if(VisualConstructor.getCurrentSelectedCompetition().getType().contains("PERSONAL")) {
+					if(VisualConstructor.getCurrentSelectedCompetition().getFieldName().contains("RUNNING"))
+						VisualConstructor.getCurrentSelectedAthlete().setRun(VisualConstructor.getTfName().getText());
+					else
+						VisualConstructor.getCurrentSelectedAthlete().setJump(VisualConstructor.getTfName().getText());
+//					VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedCompetition().getPersonalCompetitors());
+				}
+				else {
+					if(VisualConstructor.getCurrentSelectedCompetition().getFieldName().contains("RUNNING"))
+						VisualConstructor.getCurrentSelectedTeam().setRun(VisualConstructor.getTfName().getText());
+					else
+						VisualConstructor.getCurrentSelectedTeam().setJump(VisualConstructor.getTfName().getText());
+//					VisualConstructor.fillMainTables(VisualConstructor.getCurrentSelectedCompetition().getNationalCompetitors(), ProgramRunner.getCurretOlympic().getCompetitions());
+				}
+				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
 			}
 			ProgramRunner.getCurretOlympic().genCompetitions(false);
@@ -114,8 +130,16 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		}
 		
 		else if(ae.getSource().toString().contains("End Olympics")) {
-			ProgramRunner.getCurretOlympic().countVictory();
+			ProgramRunner.getCurretOlympic().awardVictors();
 			ProgramRunner.getCurretOlympic().countMedals();
+			VisualConstructor.setFinished(true);
+			VisualConstructor.setScene("Final Window");
+			return;
+		}
+		
+		else if(ae.getSource().toString().contains("View Results")) {
+			VisualConstructor.setScene("Final Window");
+			return;
 		}
 		
 		VisualConstructor.setScene("main window");

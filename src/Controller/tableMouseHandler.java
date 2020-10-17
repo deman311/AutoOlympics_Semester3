@@ -12,7 +12,9 @@ public class tableMouseHandler implements EventHandler<javafx.scene.input.MouseE
 		if(!VisualConstructor.getCompetitionTable().getSelectionModel().getSelectedCells().isEmpty())
 			VisualConstructor.setCurrentSelectedCompetition(VisualConstructor.getCompetitionTable().getSelectionModel().getSelectedItem());
 		
-		if(!VisualConstructor.getAthleteTable().getSelectionModel().getSelectedCells().isEmpty())
-			VisualConstructor.setCurrentSelectedAthlete(VisualConstructor.getAthleteTable().getSelectionModel().getSelectedItem());	
+		if(!VisualConstructor.getAthleteTable().getSelectionModel().getSelectedCells().isEmpty()) 
+			VisualConstructor.setCurrentSelectedAthlete(VisualConstructor.getAthleteTable().getSelectionModel().getSelectedItem());
+		
+		
 	}
 }

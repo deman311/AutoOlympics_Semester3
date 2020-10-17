@@ -18,6 +18,11 @@ public class Runner extends Athlete implements iRunner{
     public void generatePersonalBestRun() {
     	sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+10+rand.nextInt(2)));
     }
+    
+    @Override
+    public void setRun(String score) {
+    	sBestRun = new SimpleStringProperty(score);
+    }
 
     public void generateTeamBestRun() {
     	// NOT RELEVANT

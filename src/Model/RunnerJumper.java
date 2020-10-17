@@ -15,12 +15,20 @@ public class RunnerJumper extends Athlete implements iJumper, iRunner{
         sBestJump = new SimpleStringProperty("0");
         sBestRun = new SimpleStringProperty("0");
     }
+    
+    @Override
+    public void setJump(String score) {
+    	sBestJump = new SimpleStringProperty(score);
+    }
 
+    @Override
+    public void setRun(String score) {
+    	sBestRun = new SimpleStringProperty(score);
+    }
 
     public void generateTeamBestJump() {
     	// NOT RELEVANT
     }
-
 
     public void generateTeamBestRun() {
     	// NOT RELEVANT
@@ -49,6 +57,6 @@ public class RunnerJumper extends Athlete implements iJumper, iRunner{
     }
 	
 	public void makeHimLoseJump() {
-	    	sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
+	    sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
 	}
 }

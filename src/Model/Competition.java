@@ -95,7 +95,7 @@ public class Competition {
 		return null;
 	}
 	
-	public void countVictory() {
+	public void awardVictors() {
 		// Never Used - Only by the inherited
 	}
 }

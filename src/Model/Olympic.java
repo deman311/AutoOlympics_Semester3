@@ -2,7 +2,11 @@ package Model;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -74,11 +78,20 @@ public class Olympic {
 	public void genContries() {
 		try {
 			Scanner readCountry = new Scanner(new FileReader("./worldCountries.txt"));
+			ArrayList<NationalTeam> temp = new ArrayList<NationalTeam>();
+			Random rand = new Random();
+			NationalTeam tempCountry;
 			while(readCountry.hasNext())
-				countries.add(new NationalTeam(readCountry.nextLine()));
+				temp.add(new NationalTeam(readCountry.nextLine()));
+			for(int i = 0 ; i<6 ; i++) {
+				tempCountry = temp.get(rand.nextInt(temp.size()));
+				countries.add(tempCountry);
+				temp.remove(tempCountry);
+			}
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Could not find coutries file!","ErrorMsg",JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			
 		}
 	}
 	
@@ -109,8 +122,54 @@ public class Olympic {
 		return competitions;
 	}
 	
-	public void countVictory() {
+	public void awardVictors() {
 		for(Competition com : competitions)
-			com.countVictory();
+			com.awardVictors();
 	}
+	
+	public String findWinners(int place) {
+		ArrayList<NationalTeam> firstPlace = new ArrayList<NationalTeam>();
+		ArrayList<NationalTeam> secondPlace = new ArrayList<NationalTeam>();
+		ArrayList<NationalTeam> thirdPlace = new ArrayList<NationalTeam>();
+		ArrayList<NationalTeam> temp = new ArrayList<NationalTeam>(countries);
+		
+		int maxNumOfMedals, counter=0;
+		do {
+			maxNumOfMedals = Integer.parseInt(temp.get(0).getSNumOfMedals());
+			for(int i=1;i<temp.size();i++) {
+				if(maxNumOfMedals<Integer.parseInt(temp.get(i).getSNumOfMedals()))
+					maxNumOfMedals = Integer.parseInt(temp.get(i).getSNumOfMedals());
+			}
+			for(int i=0;i<temp.size();i++) {
+				if(maxNumOfMedals==Integer.parseInt(temp.get(i).getSNumOfMedals())) {
+						switch(counter) {
+						case 0: firstPlace.add(temp.get(i)); break;
+						case 1: secondPlace.add(temp.get(i)); break;
+						case 2: thirdPlace.add(temp.get(i)); break;
+						
+						}
+						temp.remove(i);
+						i--;
+				}
+			
+			}
+			counter++;
+		}while(counter<3);
+		
+		
+		switch(place){
+			case 1:temp = new ArrayList<NationalTeam>(firstPlace); break;
+			case 2:temp = new ArrayList<NationalTeam>(secondPlace); break;
+			case 3:temp = new ArrayList<NationalTeam>(thirdPlace); break;
+			default:System.err.println("Wrong place, should be 1,2,3"); break;
+				
+		}
+		StringBuilder sb = new StringBuilder();
+		for(NationalTeam team: temp) 
+			sb.append(team.getSName() +"\n");
+		
+		return sb.toString();
+		
+	}
+	
 }

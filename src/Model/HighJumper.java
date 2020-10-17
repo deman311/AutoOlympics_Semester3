@@ -19,6 +19,11 @@ public class HighJumper extends Athlete implements iJumper {
 	public void generatePersonalBestJump() {
 		sBestJump = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()+2));
 	}
+    
+    @Override
+    public void setJump(String score) {
+    	sBestJump = new SimpleStringProperty(score);
+    }
 
     public void generateTeamBestJump() {
     	// NOT RELEVANT

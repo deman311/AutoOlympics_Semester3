@@ -34,5 +34,8 @@ public class tableButtonHandler implements EventHandler<ActionEvent> {
 			
 		else if( ae.getSource().toString().contains("Add Country")) 
 			VisualConstructor.setScene("Country Submit Window");
+		
+		else if( ae.getSource().toString().contains("Set Score")) 
+			VisualConstructor.setScene("Score Submit Window");
 	}
 }

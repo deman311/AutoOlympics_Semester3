@@ -105,4 +105,16 @@ public class Athlete extends Person implements iRunner, iJumper {
 	public void makeHimLoseJump() {
 		// ONLY INHERITED
 	}
+
+	@Override
+	public void setJump(String score) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setRun(String score) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -131,4 +131,14 @@ public class NationalTeam implements iRunner,iJumper {
 	public void makeHimLoseJump() {
 	    	sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
 	}
+
+	@Override
+	public void setJump(String score) {
+    	sBestJump = new SimpleStringProperty(score);		
+	}
+
+	@Override
+	public void setRun(String score) {
+    	sBestRun = new SimpleStringProperty(score);		
+	}
 }

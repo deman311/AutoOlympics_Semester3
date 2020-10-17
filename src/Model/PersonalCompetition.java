@@ -27,7 +27,7 @@ public class PersonalCompetition extends Competition {
     }
 	
 	@Override
-	public void countVictory() {
+	public void awardVictors() {
 		ArrayList<Athlete> runners = new ArrayList<Athlete>();
 		ArrayList<Athlete> jumpers = new ArrayList<Athlete>();
 		for(Athlete ath : competitors) {
