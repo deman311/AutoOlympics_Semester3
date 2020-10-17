@@ -54,8 +54,11 @@ public class TeamCompetition extends Competition {
 					}
 			} while(flag);
 		}
-		competitors.get(0).winMedal(eMedal.GOLD);
-		competitors.get(1).winMedal(eMedal.SILVER);
-		competitors.get(2).winMedal(eMedal.BRONZE);
+		if(competitors.size()>0)
+			competitors.get(0).winMedal(eMedal.GOLD);
+		if(competitors.size()>1)
+			competitors.get(1).winMedal(eMedal.SILVER);
+		if(competitors.size()>2)
+			competitors.get(2).winMedal(eMedal.BRONZE);
 	}
 }

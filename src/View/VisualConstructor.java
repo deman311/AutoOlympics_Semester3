@@ -50,7 +50,7 @@ public class VisualConstructor extends Application {
 
 	private static Stage myStage;
 
-	private static TextField tfName, tfSDate, tfEdate, tfNumOfSeats, tfLocation, tfType, tfField;
+	private static TextField tfName, tfSDate, tfEDate, tfNumOfSeats, tfLocation;
 	private static TableView<NationalTeam> tvCountries;
 	private static TableView<Athlete> tvAthletes;
 	private static TableView<Competition> tvCompetition;
@@ -77,6 +77,14 @@ public class VisualConstructor extends Application {
 		tvStadiums = new TableView<Stadium>();
 		tvReferees = new TableView<Referee>();
 		setFinished(false);
+		
+		JOptionPane.showMessageDialog(null,
+				"Welcome User!\n\n"
+				+ "Because the assigment did not speciefy a lot of aspects those were our guidelines:\n\n"
+				+ "‣ All referees must be from represented countries in the Olympic, meaning you cannot add a referee from a country that is not in the Olympic.\n"
+				+ "‣ The 'Competitors Table' in a competition will show you the total medals of the competitor and \bnot just\b the ones he recieved in the given competition.\n"
+				+ "‣ When using 'Automatic' there are approximately 130 different countries in our 'worldCountries.txt' file.\n   we took the liberty to randomly pick 6 of them because when only having 4 competitions there is a slim chance of having 3 absalute winners.",
+				"DISCLAIMER!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -85,7 +93,7 @@ public class VisualConstructor extends Application {
 		setCurrentScene(scene);
 
 		BorderPane mainWindowBP = new BorderPane();
-		mainWindowBP.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+		mainWindowBP.setBackground(new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		tableButtonHandler tbHandler = new tableButtonHandler();
 		tableMouseHandler tmHandler = new tableMouseHandler();
@@ -113,7 +121,9 @@ public class VisualConstructor extends Application {
 			Label lbEDate = new Label("End Date: ");
 			tfName = new TextField();
 			tfSDate = new TextField();
-			tfEdate = new TextField();
+			tfEDate = new TextField();
+			tfSDate.setPromptText("dd/mm/yyyy");
+			tfEDate.setPromptText("dd/mm/yyyy");
 
 			hbButtons.setSpacing(20);
 			hbButtons.setTranslateY(20);
@@ -121,7 +131,7 @@ public class VisualConstructor extends Application {
 			hbButtons.setAlignment(Pos.BASELINE_CENTER);
 			hbName.getChildren().addAll(lbName, tfName);
 			hbStartDate.getChildren().addAll(lbSDate, tfSDate);
-			hbEndDate.getChildren().addAll(lbEDate, tfEdate);
+			hbEndDate.getChildren().addAll(lbEDate, tfEDate);
 			lbTitle.setFont(new Font("Impact", 20));
 			lbTitle.setAlignment(Pos.CENTER);
 			lbTitle.setTranslateY(-20);
@@ -138,7 +148,7 @@ public class VisualConstructor extends Application {
 			mainVB.getChildren().addAll(lbTitle, hbName, hbStartDate, hbEndDate, hbButtons);
 			mainVB.setAlignment(Pos.CENTER);
 
-			mainVB.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+			mainVB.setBackground(new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
 			Scene detailsForm = new Scene(mainVB, 500, 300);
 			myStage.setScene(detailsForm);
 		}
@@ -166,7 +176,7 @@ public class VisualConstructor extends Application {
 
 				Scene startWindow = new Scene(firstVBox, 500, 300);
 				firstVBox.setBackground(
-						new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+						new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
 
 				btnAutoGen.setOnAction(weHandler);
 				btnManualGen.setOnAction(weHandler);
@@ -182,7 +192,7 @@ public class VisualConstructor extends Application {
 			
 			GridPane mainGP = new GridPane();
 			Scene mainWindow = new Scene(mainWindowBP, 800, 800);
-			mainGP.setBackground(new Background(new BackgroundFill(Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+			mainGP.setBackground(new Background(new BackgroundFill(Color.PINK, CornerRadii.EMPTY, Insets.EMPTY)));
 
 			// COUTRIES TABLE
 			Label lbCountries = new Label();
@@ -207,7 +217,7 @@ public class VisualConstructor extends Application {
 				tcCountryName.setPrefWidth(150);
 
 				TableColumn<NationalTeam, String> tcCountryNumOfMedals = new TableColumn<NationalTeam, String>(
-						"Achieved Medals");
+						"Total Medals");
 				tcCountryNumOfMedals.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("sNumOfMedals"));
 				tcCountryNumOfMedals.setPrefWidth(100);
 				tcCountryNumOfMedals.setSortType(SortType.DESCENDING);
@@ -468,14 +478,17 @@ public class VisualConstructor extends Application {
 		// COMPETITORS WINDOW
 		// --------------------------------------------------------------------------------------------------------
 		else if (scene.equalsIgnoreCase("competitors window")) {
+			resetMainTables();
+			resetCompetitorsTable();
+			
 			Scene mainWindow = new Scene(mainWindowBP, 800, 800);
 
-			Button setScore = new Button("Set Score");
+			Button btnSetScore = new Button("Set Score");
 			Label lbCompetitor = new Label();
 			HBox competitorHB = new HBox();
-			setScore.setOnAction(tbHandler);
+			btnSetScore.setOnAction(tbHandler);
 			
-			competitorHB.getChildren().addAll(setScore, btnBack);
+			competitorHB.getChildren().addAll(btnSetScore, btnBack);
 			competitorHB.setAlignment(Pos.CENTER);
 			competitorHB.setSpacing(20);
 			competitorHB.setPadding(new Insets(20));
@@ -487,6 +500,9 @@ public class VisualConstructor extends Application {
 			
 			if(tvAthletes.getColumns().isEmpty())
 				if(currentSelectedCompetition.getType().contains("PERSONAL")) {
+					fillAthleteTable(currentSelectedCompetition.getPersonalCompetitors());
+					btnSetScore.disableProperty().bind(Bindings.isEmpty(tvAthletes.getSelectionModel().getSelectedCells()));
+					
 					TableColumn<Athlete, String> tcCompetitorName = new TableColumn<Athlete, String>("Name");
 					tcCompetitorName.setCellValueFactory(new PropertyValueFactory<Athlete, String>("sName"));
 					tcCompetitorName.setPrefWidth(200);
@@ -530,6 +546,9 @@ public class VisualConstructor extends Application {
 					mainWindowBP.setCenter(tvAthletes);
 				}
 				else {
+					fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
+					btnSetScore.disableProperty().bind(Bindings.isEmpty(tvCountries.getSelectionModel().getSelectedCells()));
+					
 					TableColumn<NationalTeam, String> tcCompetitorName = new TableColumn<NationalTeam, String>("Name");
 					tcCompetitorName.setCellValueFactory(new PropertyValueFactory<NationalTeam, String>("sName"));
 					tcCompetitorName.setPrefWidth(300);
@@ -651,6 +670,12 @@ public class VisualConstructor extends Application {
 
 			Label lbTitle = new Label("Set Score");
 			Label lbName = new Label("Score: ");
+			Label lbHint = new Label();
+			
+			if(currentSelectedCompetition.getFieldName().contains("RUNNING"))
+				lbHint.setText("Note that a valid score for a 200 meter run is between: 10 to 50");
+			else
+				lbHint.setText("Note that a valid score for freejumping is between: 0 to 3");
 			
 			tfName = new TextField();
 			
@@ -663,7 +688,7 @@ public class VisualConstructor extends Application {
 			hbBtns.setAlignment(Pos.CENTER);
 			hbBtns.setSpacing(20);
 			hbScore.getChildren().addAll(lbName, tfName);
-			vbSet.getChildren().addAll(hbScore, hbBtns);
+			vbSet.getChildren().addAll(lbHint, hbScore, hbBtns);
 			vbSet.setAlignment(Pos.CENTER);
 			mainWindowBP.setTop(hbTitle);
 			mainWindowBP.setCenter(vbSet);
@@ -737,7 +762,7 @@ public class VisualConstructor extends Application {
 
 			Label lbTitle = new Label("Stadium Details");
 			Label lbName = new Label("Name: ");
-			Label lbNumOfSeats = new Label("NumOfSeats: ");
+			Label lbNumOfSeats = new Label("Number Of Seats: ");
 			Label lbLocation = new Label("Location: ");
 
 			tfName = new TextField();
@@ -760,43 +785,6 @@ public class VisualConstructor extends Application {
 			hbNumOfSeats.getChildren().addAll(lbNumOfSeats, tfNumOfSeats);
 			hbName.getChildren().addAll(lbName, tfName);
 			vbSet.getChildren().addAll(hbName, hbLocation, hbNumOfSeats, hbBtns);
-			vbSet.setAlignment(Pos.CENTER);
-			mainWindowBP.setTop(hbTitle);
-			mainWindowBP.setCenter(vbSet);
-			
-			myStage.setScene(setWindow);
-		}
-		
-		else if (scene.equalsIgnoreCase("Competition Submit Window")) {
-
-			Scene setWindow = new Scene(mainWindowBP, 500, 500);
-
-			VBox vbSet = new VBox();
-			HBox hbTitle = new HBox();
-			HBox hbType = new HBox();
-			HBox hbField = new HBox();
-			HBox hbBtns = new HBox();
-
-			Label lbTitle = new Label("Competition Details");
-			Label lbType = new Label("Type: ");
-			Label lbField = new Label("Field: ");
-
-			tfType = new TextField();
-			tfField = new TextField();
-
-			lbTitle.setFont(new Font("Impact", 40));
-			hbTitle.getChildren().add(lbTitle);
-			hbTitle.setAlignment(Pos.CENTER);
-			hbType.setAlignment(Pos.CENTER);
-			hbField.setAlignment(Pos.CENTER);
-			hbBtns.setAlignment(Pos.CENTER);
-			hbType.setPadding(new Insets(20));
-			hbField.setPadding(new Insets(20));
-			hbBtns.setSpacing(20);
-			hbBtns.getChildren().addAll(btnSubmit, btnBack);
-			hbType.getChildren().addAll(lbType, tfType);
-			hbField.getChildren().addAll(lbField, tfField);
-			vbSet.getChildren().addAll(hbType, hbField, hbBtns);
 			vbSet.setAlignment(Pos.CENTER);
 			mainWindowBP.setTop(hbTitle);
 			mainWindowBP.setCenter(vbSet);
@@ -855,13 +843,13 @@ public class VisualConstructor extends Application {
 			Label lbSecond = new Label();
 			Label lbThird = new Label();
 			
-			Rectangle rcFirst = new Rectangle(100,300);
-			Rectangle rcSecond = new Rectangle(100,200);
+			Rectangle rcFirst = new Rectangle(100,250);
+			Rectangle rcSecond = new Rectangle(100,175);
 			Rectangle rcThird = new Rectangle(100,100);
 			
 			rcFirst.setFill(Color.GOLD);
 			rcSecond.setFill(Color.SILVER);
-			rcThird.setFill(Color.SADDLEBROWN);
+			rcThird.setFill(Color.SANDYBROWN);
 			
 			lbFirst.setText(ProgramRunner.getCurretOlympic().findWinners(1));
 			lbSecond.setText(ProgramRunner.getCurretOlympic().findWinners(2));
@@ -885,6 +873,7 @@ public class VisualConstructor extends Application {
 			hbPodium.setPadding(new Insets(20));
 			hbPodium.setSpacing(50);
 			hbBtns.setSpacing(20);
+			hbBtns.setPadding(new Insets(20));
 			hbBtns.getChildren().addAll(btnBack, btnExit);
 			vbSet.getChildren().addAll(hbPodium ,hbBtns);
 			vbSet.setAlignment(Pos.BOTTOM_CENTER);
@@ -892,12 +881,6 @@ public class VisualConstructor extends Application {
 			mainWindowBP.setCenter(vbSet);
 			
 			myStage.setScene(setWindow);
-		
-		
-		
-		
-		
-		
 		}
 	}
 
@@ -977,22 +960,6 @@ public class VisualConstructor extends Application {
 		return currentScene;
 	}
 
-	public static TextField getTfType() {
-		return tfType;
-	}
-
-	public static void setTfType(TextField tfType) {
-		VisualConstructor.tfType = tfType;
-	}
-
-	public static TextField getTfField() {
-		return tfField;
-	}
-
-	public static void setTfField(TextField tfField) {
-		VisualConstructor.tfField = tfField;
-	}
-
 	public static TextField getTfLocation() {
 		return tfLocation;
 	}
@@ -1025,12 +992,12 @@ public class VisualConstructor extends Application {
 		VisualConstructor.tfSDate = tfSDate;
 	}
 
-	public static TextField getTfEdate() {
-		return tfEdate;
+	public static TextField getTfEDate() {
+		return tfEDate;
 	}
 
-	public static void setTfEdate(TextField tfEdate) {
-		VisualConstructor.tfEdate = tfEdate;
+	public static void setTfEDate(TextField tfEdate) {
+		VisualConstructor.tfEDate = tfEdate;
 	}
 
 	public static void exitProgram() {

@@ -29,11 +29,13 @@ public class tableButtonHandler implements EventHandler<ActionEvent> {
 			VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
 		}
 		
-		else if(ae.getSource().toString().contains("Add Athlete")) 
+		else if(ae.getSource().toString().contains("Add Athlete"))  {
 			VisualConstructor.setScene("Human Submit Window");
+		}
 			
-		else if( ae.getSource().toString().contains("Add Country")) 
+		else if( ae.getSource().toString().contains("Add Country")) {
 			VisualConstructor.setScene("Country Submit Window");
+		}
 		
 		else if( ae.getSource().toString().contains("Set Score")) 
 			VisualConstructor.setScene("Score Submit Window");

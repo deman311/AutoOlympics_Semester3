@@ -19,8 +19,8 @@ public class NationalTeam implements iRunner,iJumper {
         sSilver = new SimpleStringProperty("0");
         sBronze = new SimpleStringProperty("0");
         sNumOfMedals = new SimpleStringProperty("0");
-        sBestJump = new SimpleStringProperty("0");
-        sBestRun = new SimpleStringProperty("0");
+        generateTeamBestJump();
+        generateTeamBestRun();
     }
 
     public void addMember(Athlete athlete){

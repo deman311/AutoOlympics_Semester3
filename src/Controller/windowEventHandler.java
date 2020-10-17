@@ -1,6 +1,11 @@
 package Controller;
 
+import java.text.SimpleDateFormat;
+import java.util.InputMismatchException;
+
 import javax.swing.JOptionPane;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
 import Model.HighJumper;
 import Model.NationalTeam;
@@ -21,11 +26,6 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		if (ae.getSource().toString().contains("Automatic")) {
 			olympic.autoGenerate();
 			VisualConstructor.fillMainTables(olympic.getCountries(), olympic.getCompetitions());
-			JOptionPane.showMessageDialog(null,
-					"Welcome user!\n\nHere you will be presented with information about an Automatically Generated Olympic: "
-							+ ProgramRunner.getCurretOlympic().getName()
-							+ ".\nUse the tables to navigate through the Database,\nWhen ready to start the event - press \"Play The Olympics\".",
-					"Tip!", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 		if(ae.getSource().toString().contains("Manually")) {
@@ -49,54 +49,119 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		else if (ae.getSource().toString().contains("Submit")) {
 			switch(VisualConstructor.getCurrentScene()) {
 			case "details form":
-				ProgramRunner.setCurrentOlympic(VisualConstructor.getTfName().getText(),
-						VisualConstructor.getTfSDate().getText(), VisualConstructor.getTfEdate().getText());
-				VisualConstructor.setScene("start window");
+				boolean isOk = false;
+				if(!VisualConstructor.getTfName().getText().isEmpty() && isOkDate(VisualConstructor.getTfSDate().getText() , VisualConstructor.getTfEDate().getText())) {
+					ProgramRunner.setCurrentOlympic(VisualConstructor.getTfName().getText(),VisualConstructor.getTfSDate().getText(), VisualConstructor.getTfEDate().getText());
+					isOk = true;
+				}
+				else if(VisualConstructor.getTfName().getText().isEmpty() && VisualConstructor.getTfSDate().getText().isEmpty() && VisualConstructor.getTfEDate().getText().isEmpty()) {
+					ProgramRunner.setCurrentOlympic(VisualConstructor.getTfName().getText(),VisualConstructor.getTfSDate().getText(), VisualConstructor.getTfEDate().getText());
+					isOk = true;
+				}
+				else if(VisualConstructor.getTfName().getText().isEmpty())
+					JOptionPane.showMessageDialog(null, "No Name Given.", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+				if(isOk)
+					VisualConstructor.setScene("start window");
 				break;
 			case "Human Submit Window":
-				if(VisualConstructor.getLastScene().contains("competition window"))
-					VisualConstructor.getCurrentSelectedCompetition().setReferee(new Referee(VisualConstructor.getTfName().getText(), VisualConstructor.getSelectedCountry(), VisualConstructor.getCurrentSelectedCompetition().getField()));
-				else if(VisualConstructor.getLastScene().contains("athlete window")) {
-					if(VisualConstructor.getSelectedField() == null)
-						VisualConstructor.getCurrentSelectedTeam().addMember(new RunnerJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
-					else if(VisualConstructor.getSelectedField().name().contains("RUNNING"))
-						VisualConstructor.getCurrentSelectedTeam().addMember(new Runner(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
-					else if(VisualConstructor.getSelectedField().name().contains("HIGHJUMPING"))
-						VisualConstructor.getCurrentSelectedTeam().addMember(new HighJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
-					
-					VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());
+				try {
+					if(VisualConstructor.getTfName().getText().isEmpty())
+						throw new NullPointerException();
+					if(VisualConstructor.getLastScene().contains("competition window"))
+						VisualConstructor.getCurrentSelectedCompetition().setReferee(new Referee(VisualConstructor.getTfName().getText(), VisualConstructor.getSelectedCountry(), VisualConstructor.getCurrentSelectedCompetition().getField()));
+					else if(VisualConstructor.getLastScene().contains("athlete window")) {
+						if(VisualConstructor.getSelectedField() == null)
+							VisualConstructor.getCurrentSelectedTeam().addMember(new RunnerJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
+						else if(VisualConstructor.getSelectedField().name().contains("RUNNING"))
+							VisualConstructor.getCurrentSelectedTeam().addMember(new Runner(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
+						else if(VisualConstructor.getSelectedField().name().contains("HIGHJUMPING"))
+							VisualConstructor.getCurrentSelectedTeam().addMember(new HighJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
+						
+						VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());
+						ProgramRunner.getCurretOlympic().genCompetitions(false);
+					}
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "Please fill all fields.", "Empty Fields!", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				ProgramRunner.getCurretOlympic().countMedals();
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
 			case "Stadium Submit Window":
-				VisualConstructor.getCurrentSelectedCompetition().setStadium(new Stadium(VisualConstructor.getTfName().getText(), VisualConstructor.getTfLocation().getText(), Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())));
-				VisualConstructor.setScene(VisualConstructor.getLastScene());
+				try {
+					if(VisualConstructor.getTfName().getText().isEmpty() || VisualConstructor.getTfNumOfSeats().getText().isEmpty() || VisualConstructor.getTfLocation().getText().isEmpty())
+						throw new NullPointerException();
+					if(Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())<1)
+						throw new InputMismatchException();
+					VisualConstructor.getCurrentSelectedCompetition().setStadium(new Stadium(VisualConstructor.getTfName().getText(), VisualConstructor.getTfLocation().getText(), Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())));
+					VisualConstructor.setScene(VisualConstructor.getLastScene());
 				break;
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "Please fill all fields.", "Empty Fields!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				catch (InputMismatchException e) {
+					JOptionPane.showMessageDialog(null, "Invalid number of seats (Can't be a negative number)", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Can't have seats in pieces!", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			case "Country Submit Window":
-				ProgramRunner.getCurretOlympic().addCountry(new NationalTeam(VisualConstructor.getTfName().getText()));
-				VisualConstructor.fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
-				VisualConstructor.setScene(VisualConstructor.getLastScene());
-				break;
+				try {
+					if(VisualConstructor.getTfName().getText().isEmpty())
+						throw new NullPointerException();
+					ProgramRunner.getCurretOlympic().addCountry(new NationalTeam(VisualConstructor.getTfName().getText()));
+					VisualConstructor.setScene(VisualConstructor.getLastScene());
+					break;
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "Please fill all fields.", "Empty Fields!", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 			case "Score Submit Window":
-				if(VisualConstructor.getCurrentSelectedCompetition().getType().contains("PERSONAL")) {
-					if(VisualConstructor.getCurrentSelectedCompetition().getFieldName().contains("RUNNING"))
-						VisualConstructor.getCurrentSelectedAthlete().setRun(VisualConstructor.getTfName().getText());
-					else
-						VisualConstructor.getCurrentSelectedAthlete().setJump(VisualConstructor.getTfName().getText());
-//					VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedCompetition().getPersonalCompetitors());
+				try {
+					Double scoreRun=0d,scoreJump=0d;
+					if(VisualConstructor.getCurrentSelectedCompetition().getType().contains("PERSONAL")) {
+						if(VisualConstructor.getCurrentSelectedCompetition().getFieldName().contains("RUNNING")) {
+							scoreRun = Double.parseDouble(VisualConstructor.getTfName().getText());
+							VisualConstructor.getCurrentSelectedAthlete().setRun(""+scoreRun);
+							if(scoreRun < 10 || scoreRun > 50)
+								throw new NumberFormatException();
+						}
+						else {
+							scoreJump = Double.parseDouble(VisualConstructor.getTfName().getText());	
+							VisualConstructor.getCurrentSelectedAthlete().setJump(""+scoreJump);
+							if(scoreJump < 0 || scoreJump > 3)
+								throw new NumberFormatException();
+						}
+					}
+					else {
+						if(VisualConstructor.getCurrentSelectedCompetition().getFieldName().contains("RUNNING")) {
+							scoreRun = Double.parseDouble(VisualConstructor.getTfName().getText());
+							VisualConstructor.getCurrentSelectedTeam().setRun(""+scoreRun);
+							if(scoreRun < 10 || scoreRun > 50)
+								throw new NumberFormatException();
+						}
+						else {
+							scoreJump = Double.parseDouble(VisualConstructor.getTfName().getText());
+							VisualConstructor.getCurrentSelectedTeam().setJump(""+scoreJump);	
+							if(scoreJump < 0 || scoreJump > 3)
+								throw new NumberFormatException();
+						}
+					}
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "Please fill all fields.", "Empty Fields!", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
-				else {
-					if(VisualConstructor.getCurrentSelectedCompetition().getFieldName().contains("RUNNING"))
-						VisualConstructor.getCurrentSelectedTeam().setRun(VisualConstructor.getTfName().getText());
-					else
-						VisualConstructor.getCurrentSelectedTeam().setJump(VisualConstructor.getTfName().getText());
-//					VisualConstructor.fillMainTables(VisualConstructor.getCurrentSelectedCompetition().getNationalCompetitors(), ProgramRunner.getCurretOlympic().getCompetitions());
+				catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "INVALID SCORE!" , "Invalid Input!" , JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				VisualConstructor.setScene(VisualConstructor.getLastScene());
+				ProgramRunner.getCurretOlympic().genCompetitions(false);
 				break;
-			}
-			ProgramRunner.getCurretOlympic().genCompetitions(false);
+			}		
 			return;
 		}
 		
@@ -143,5 +208,23 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 		}
 		
 		VisualConstructor.setScene("main window");
+	}
+
+	public boolean isOkDate(String sDate,String eDate) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat.setLenient(false);
+		try {
+			if(dateFormat.parse(sDate.trim()).before(dateFormat.parse(eDate.trim())))
+				return true;
+			else
+				JOptionPane.showMessageDialog(null, "'Start Date' must be before 'End Date'.", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+		} catch (ParseException pe) {
+			JOptionPane.showMessageDialog(null, "INVALID DATE!", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+			return false;
+        } catch (java.text.ParseException e) {
+        	JOptionPane.showMessageDialog(null, "INVALID DATE!", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+        	return false;
+        }
+		return false;
 	}
 }

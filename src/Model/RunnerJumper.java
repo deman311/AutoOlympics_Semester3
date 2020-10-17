@@ -12,8 +12,8 @@ public class RunnerJumper extends Athlete implements iJumper, iRunner{
     public RunnerJumper(String name, NationalTeam country) {
         super(name, country);
         super.setSField("RUNNING, HIGHJUMPING");
-        sBestJump = new SimpleStringProperty("0");
-        sBestRun = new SimpleStringProperty("0");
+        generatePersonalBestJump();
+        generatePersonalBestRun();
     }
     
     @Override

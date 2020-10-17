@@ -51,9 +51,12 @@ public class PersonalCompetition extends Competition {
 						flag = true;
 					}
 			} while(flag);
-			runners.get(0).winMedal(eMedal.GOLD);
-			runners.get(1).winMedal(eMedal.SILVER);
-			runners.get(2).winMedal(eMedal.BRONZE);
+			if(runners.size()>0)
+				runners.get(0).winMedal(eMedal.GOLD);
+			if(runners.size()>1)
+				runners.get(1).winMedal(eMedal.SILVER);
+			if(runners.size()>2)
+				runners.get(2).winMedal(eMedal.BRONZE);
 		}
 		else {
 			boolean flag;
@@ -69,9 +72,12 @@ public class PersonalCompetition extends Competition {
 						flag = true;
 					}
 			} while(flag);
-			jumpers.get(0).winMedal(eMedal.GOLD);
-			jumpers.get(1).winMedal(eMedal.SILVER);
-			jumpers.get(2).winMedal(eMedal.BRONZE);
+			if(jumpers.size()>0)
+				jumpers.get(0).winMedal(eMedal.GOLD);
+			if(jumpers.size()>1)
+				jumpers.get(1).winMedal(eMedal.SILVER);
+			if(jumpers.size()>2)
+				jumpers.get(2).winMedal(eMedal.BRONZE);
 		}
 	}
 }

@@ -2,10 +2,7 @@ package Model;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -145,16 +142,14 @@ public class Olympic {
 						switch(counter) {
 						case 0: firstPlace.add(temp.get(i)); break;
 						case 1: secondPlace.add(temp.get(i)); break;
-						case 2: thirdPlace.add(temp.get(i)); break;
-						
+						case 2: thirdPlace.add(temp.get(i)); break;				
 						}
 						temp.remove(i);
 						i--;
-				}
-			
+				}	
 			}
 			counter++;
-		}while(counter<3);
+		}while(counter<3 && temp.size()>0);
 		
 		
 		switch(place){

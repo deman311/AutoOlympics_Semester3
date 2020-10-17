@@ -11,7 +11,7 @@ public class Runner extends Athlete implements iRunner{
     public Runner(String name, NationalTeam country) {
         super(name, country);
         super.setField(Olympic.eCompetition.RUNNING);
-        sBestRun = new SimpleStringProperty("0");
+        generatePersonalBestRun();
     }
     
     @Override
