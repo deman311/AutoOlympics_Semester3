@@ -62,7 +62,7 @@ public class VisualConstructor extends Application {
 	private static String currentScene, lastScene;
 	private static ComboBox<String> cbCountries, cbFields;
 	
-	private static boolean finished;
+	private static boolean finished,allSet;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -77,6 +77,7 @@ public class VisualConstructor extends Application {
 		tvStadiums = new TableView<Stadium>();
 		tvReferees = new TableView<Referee>();
 		setFinished(false);
+		setAllSet(false);
 		
 		JOptionPane.showMessageDialog(null,
 				"Welcome User!\n\n"
@@ -189,6 +190,7 @@ public class VisualConstructor extends Application {
 			resetMainTables();
 			resetCompetitorsTable();
 			fillMainTables(ProgramRunner.getCurretOlympic().getCountries(), ProgramRunner.getCurretOlympic().getCompetitions());
+			checkAllSet();
 			
 			GridPane mainGP = new GridPane();
 			Scene mainWindow = new Scene(mainWindowBP, 800, 800);
@@ -236,6 +238,7 @@ public class VisualConstructor extends Application {
 			Button btnViewAllStadiums = new Button("View All Stadiums");
 			Button btnResults = new Button("End Olympics");
 			btnResults.setOnAction(weHandler);
+			btnResults.disableProperty().set(!isAllSet());
 			competitionsVB.getChildren().addAll(btnViewCompetition, btnViewAllReferees, btnViewAllStadiums);
 			competitionsVB.setAlignment(Pos.CENTER);
 			competitionsVB.setSpacing(10);
@@ -292,7 +295,10 @@ public class VisualConstructor extends Application {
 
 			mainWindowBP.setCenter(mainGP);
 			HBox hbBot = new HBox();
-			hbBot.getChildren().addAll(btnResults, btnExit);
+			if(isAllSet())
+				hbBot.getChildren().addAll(btnResults, btnExit);
+			else
+				hbBot.getChildren().addAll(new Label("Missing Referees or Judges,\nCheck your competitions."),btnResults, btnExit);
 			hbBot.setAlignment(Pos.CENTER);
 			hbBot.setSpacing(20);
 			hbBot.setPadding(new Insets(10));
@@ -884,6 +890,14 @@ public class VisualConstructor extends Application {
 		}
 	}
 
+	private static void checkAllSet() {
+		for(Competition com : ProgramRunner.getCurretOlympic().getCompetitions())
+			if(com.getStadium() == null || com.getReferee() == null)
+				return;
+		
+		setAllSet(true);
+	}
+
 	public static void mainLaunch(String[] args) {
 		launch(args);
 	}
@@ -1064,5 +1078,13 @@ public class VisualConstructor extends Application {
 
 	public static void setFinished(boolean finished) {
 		VisualConstructor.finished = finished;
+	}
+
+	public static boolean isAllSet() {
+		return allSet;
+	}
+
+	public static void setAllSet(boolean allSet) {
+		VisualConstructor.allSet = allSet;
 	}
 }
