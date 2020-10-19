@@ -898,8 +898,10 @@ public class VisualConstructor extends Application {
 
 	private static void checkAllSet() {
 		for(Competition com : ProgramRunner.getCurretOlympic().getCompetitions())
-			if(com.getStadium() == null || com.getReferee() == null)
+			if(com.getStadium() == null || com.getReferee() == null) {
+				allSet = false;
 				return;
+			}
 		
 		setAllSet(true);
 	}

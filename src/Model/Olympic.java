@@ -93,17 +93,21 @@ public class Olympic {
 	}
 	
 	public void genCompetitions(boolean isRandom) {
-		competitions.clear();
 		if(isRandom)
 			for(NationalTeam team : countries)
 				team.autoGenerate();
-		for(int i=0;i<eCompetition.values().length;i++) {
-			competitions.add(new PersonalCompetition(eCompetition.values()[i]));	
-			competitions.add(new TeamCompetition(eCompetition.values()[i]));
-		}
-		for(Competition com : competitions) {
-			com.fillCompetitors();	
+		if(!isRandom)
+			for(Competition com : competitions) 
+				com.fillCompetitors();
+		
 			if(isRandom) {
+				competitions.clear();
+				for(int i=0;i<eCompetition.values().length;i++) {
+					competitions.add(new PersonalCompetition(eCompetition.values()[i]));	
+					competitions.add(new TeamCompetition(eCompetition.values()[i]));
+				}
+				for(Competition com : competitions) {
+				com.fillCompetitors();
 				com.genReferee();
 				com.genStadium();
 			}		
