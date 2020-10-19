@@ -130,6 +130,8 @@ public class NationalTeam implements iRunner,iJumper {
 	
 	public void makeHimLoseJump() {
 	    	sBestJump = new SimpleStringProperty(String.format("%.3f",Double.parseDouble(sBestJump.get()) - 0.001));
+	    	if(Double.parseDouble(sBestJump.get())<0)
+	    		sBestJump = new SimpleStringProperty(String.format("%.3f", rand.nextFloat()));
 	}
 
 	@Override

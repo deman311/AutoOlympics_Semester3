@@ -84,7 +84,8 @@ public class VisualConstructor extends Application {
 				+ "Because the assigment did not speciefy a lot of aspects those were our guidelines:\n\n"
 				+ "‣ All referees must be from represented countries in the Olympic, meaning you cannot add a referee from a country that is not in the Olympic.\n"
 				+ "‣ The 'Competitors Table' in a competition will show you the total medals of the competitor and \bnot just\b the ones he recieved in the given competition.\n"
-				+ "‣ When using 'Automatic' there are approximately 130 different countries in our 'worldCountries.txt' file.\n   we took the liberty to randomly pick 6 of them because when only having 4 competitions there is a slim chance of having 3 absalute winners.",
+				+ "‣ When using 'Automatic' there are approximately 130 different countries in our 'worldCountries.txt' file.\n   we took the liberty to randomly pick 6 of them because when only having 4 competitions there is a slim chance of having 3 absolute winners.\n"
+				+ "‣ Please note that the final 'Winner's Podium' may contain multiple countries in one position if they have the same number of medals.",
 				"DISCLAIMER!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
@@ -795,7 +796,7 @@ public class VisualConstructor extends Application {
 			hbLocation.getChildren().addAll(lbLocation, tfLocation);
 			hbNumOfSeats.getChildren().addAll(lbNumOfSeats, tfNumOfSeats);
 			hbName.getChildren().addAll(lbName, tfName);
-			vbSet.getChildren().addAll(hbName, hbLocation, hbNumOfSeats, hbBtns);
+			vbSet.getChildren().addAll(new Label("Please note that the max number of seats a stadium can have is 100,000."),hbName, hbLocation, hbNumOfSeats, hbBtns);
 			vbSet.setAlignment(Pos.CENTER);
 			mainWindowBP.setTop(hbTitle);
 			mainWindowBP.setCenter(vbSet);

@@ -89,9 +89,11 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 				break;
 			case "Stadium Submit Window":
 				try {
+					if(!isNumeric(VisualConstructor.getTfNumOfSeats().getText()))
+						throw new InputMismatchException();
 					if(VisualConstructor.getTfName().getText().isEmpty() || VisualConstructor.getTfNumOfSeats().getText().isEmpty() || VisualConstructor.getTfLocation().getText().isEmpty())
 						throw new NullPointerException();
-					if(Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())<1)
+					if(Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())<1 || Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())>100000)
 						throw new InputMismatchException();
 					VisualConstructor.getCurrentSelectedCompetition().setStadium(new Stadium(VisualConstructor.getTfName().getText(), VisualConstructor.getTfLocation().getText(), Integer.parseInt(VisualConstructor.getTfNumOfSeats().getText())));
 					VisualConstructor.setScene(VisualConstructor.getLastScene());
@@ -101,7 +103,7 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 					return;
 				}
 				catch (InputMismatchException e) {
-					JOptionPane.showMessageDialog(null, "Invalid number of seats (Can't be a negative number)", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Invalid number of seats.", "Invalid Input!", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				catch (NumberFormatException e) {
@@ -226,5 +228,18 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
         	return false;
         }
 		return false;
+	}
+	
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        @SuppressWarnings("unused")
+			double d = Double.parseDouble(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 }
