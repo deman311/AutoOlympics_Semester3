@@ -72,9 +72,9 @@ public class windowEventHandler implements EventHandler<ActionEvent> {
 					else if(VisualConstructor.getLastScene().contains("athlete window")) {
 						if(VisualConstructor.getSelectedField() == null)
 							VisualConstructor.getCurrentSelectedTeam().addMember(new RunnerJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
-						else if(VisualConstructor.getSelectedField().name().contains("RUNNING"))
+						else if(VisualConstructor.getSelectedField().name().equals("RUNNING"))
 							VisualConstructor.getCurrentSelectedTeam().addMember(new Runner(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
-						else if(VisualConstructor.getSelectedField().name().contains("HIGHJUMPING"))
+						else if(VisualConstructor.getSelectedField().name().equals("HIGHJUMPING"))
 							VisualConstructor.getCurrentSelectedTeam().addMember(new HighJumper(VisualConstructor.getTfName().getText(),VisualConstructor.getCurrentSelectedTeam()));
 						
 						VisualConstructor.fillAthleteTable(VisualConstructor.getCurrentSelectedTeam().getMembers());

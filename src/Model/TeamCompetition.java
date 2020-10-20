@@ -15,7 +15,8 @@ public class TeamCompetition extends Competition {
     @Override
 	public void fillCompetitors() {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
-			competitors.add(team);
+			if(!competitors.contains(team))
+				competitors.add(team);
 	}
     
     public ArrayList<NationalTeam> getNationalCompetitors(){

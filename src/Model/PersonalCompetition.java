@@ -18,6 +18,7 @@ public class PersonalCompetition extends Competition {
 		for(NationalTeam team : ProgramRunner.getCurretOlympic().getCountries())
     		for(Athlete competitor: team.getMembers())
     			if(competitor.getSField().equalsIgnoreCase(super.getFieldName()) || competitor.getSField().equalsIgnoreCase("RUNNING, HIGHJUMPING"))
+    				if(!competitors.contains(competitor))
     				competitors.add(competitor);
 	}
     
