@@ -546,6 +546,11 @@ public class VisualConstructor extends Application {
 						tcCompetitorScore.setSortType(SortType.DESCENDING);
 					}
 					
+					if(isFinished()) {
+						btnSetScore.disableProperty().unbind();
+						btnSetScore.setDisable(true);
+					}
+					
 					tcCompetitorScore.setPrefWidth(100);
 					tvAthletes.getColumns().addAll(tcCompetitorName, tcCompetitorCountry, tcCompetitorScore, tcMedals);
 					tvAthletes.getSortOrder().clear();

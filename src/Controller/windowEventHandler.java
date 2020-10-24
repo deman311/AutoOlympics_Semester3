@@ -18,6 +18,7 @@ import View.VisualConstructor;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+@SuppressWarnings("restriction")
 public class windowEventHandler implements EventHandler<ActionEvent> {
 
 	public void handle(ActionEvent ae) {

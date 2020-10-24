@@ -113,7 +113,7 @@ public class NationalTeam implements iRunner,iJumper {
 
 	@Override
 	public void generateTeamBestRun() {
-		sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+8+rand.nextInt(2)));	
+		sBestRun = new SimpleStringProperty(String.format("%.3f",rand.nextDouble()*10+10+rand.nextInt(2)));	
 	}
 	
 	public String getSBestJump() {
